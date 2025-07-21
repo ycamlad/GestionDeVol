@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>SupprimerVol</class>
+ <widget class="QDialog" name="SupprimerVol">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>400</width>
+    <height>300</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>SupprimerVol</string>
+  </property>
+  <widget class="QLineEdit" name="lineEditNumero">
+   <property name="geometry">
+    <rect>
+     <x>180</x>
+     <y>110</y>
+     <width>113</width>
+     <height>28</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>AC1636</string>
+   </property>
+   <property name="placeholderText">
+    <string>Ex:JS4589</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label">
+   <property name="geometry">
+    <rect>
+     <x>80</x>
+     <y>120</y>
+     <width>91</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Numero de vol:</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButtonConfirmerSupprimer">
+   <property name="geometry">
+    <rect>
+     <x>160</x>
+     <y>200</y>
+     <width>90</width>
+     <height>28</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Confirmer</string>
+   </property>
+  </widget>
+ </widget>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>pushButtonConfirmerSupprimer</sender>
+   <signal>clicked(bool)</signal>
+   <receiver>SupprimerVol</receiver>
+   <slot>slotSupprimerVol()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>204</x>
+     <y>213</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>199</x>
+     <y>149</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+ <slots>
+  <slot>slotSupprimerVol()</slot>
+ </slots>
+</ui>
