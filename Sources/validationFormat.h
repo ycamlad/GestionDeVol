@@ -1,9 +1,3 @@
-/**
- * \file validationFormat.h
- * \brief déclarations des fonctions de validation et d'ajustement de largeur
- * \author Mohamed Haj Taieb
- * \date 2025-05-29
- */
 #ifndef VALIDATIONFORMAT_H
 #define VALIDATIONFORMAT_H
 #include <string>

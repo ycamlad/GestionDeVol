@@ -1,15 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/qtFiles/form.cc to edit this template
- */
-
-/*
- * File:   FenetrePrincipal.cpp
- * Author: etudiant
- *
- * Created on 5 juillet 2025, 12 h 09
- */
-
 #include "FenetrePrincipal.h"
 #include "AjouterDepart.h"
 #include "AjouterArrivee.h"
