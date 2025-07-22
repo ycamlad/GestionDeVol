@@ -6,6 +6,7 @@
 #include "Depart.h"
 #include "Arrivee.h"
 #include "QStandardItemModel"
+#include "QApplication"
 using namespace aerien;
 
 class FenetrePrincipal : public QMainWindow
@@ -25,6 +26,7 @@ private:
     Ui::FenetrePrincipal widget;
   Aeroport yul;
   void rafraichirAffichage();
+  QIcon icon();
 };
 
 #endif /* _FENETREPRINCIPAL_H */

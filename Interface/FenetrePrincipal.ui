@@ -10,8 +10,17 @@
     <height>775</height>
    </rect>
   </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
+  </property>
   <property name="windowTitle">
-   <string>FenetrePrincipal</string>
+   <string>Menu Principal</string>
+  </property>
+  <property name="autoFillBackground">
+   <bool>false</bool>
   </property>
   <widget class="QWidget" name="centralwidget">
    <widget class="QTableWidget" name="tableWidgetDepart">
@@ -23,6 +32,12 @@
       <height>221</height>
      </rect>
     </property>
+    <property name="autoFillBackground">
+     <bool>true</bool>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font: 75 8pt &quot;MS Shell Dlg 2&quot;;</string>
+    </property>
    </widget>
    <widget class="QTableWidget" name="tableWidgetArrivee">
     <property name="geometry">
@@ -32,6 +47,12 @@
       <width>871</width>
       <height>221</height>
      </rect>
+    </property>
+    <property name="autoFillBackground">
+     <bool>true</bool>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font: 75 8pt &quot;MS Shell Dlg 2&quot;;</string>
     </property>
    </widget>
    <widget class="QLabel" name="label">
@@ -70,6 +91,10 @@
      <string>Arrivée</string>
     </property>
    </widget>
+   <zorder>label</zorder>
+   <zorder>label_2</zorder>
+   <zorder>tableWidgetDepart</zorder>
+   <zorder>tableWidgetArrivee</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
