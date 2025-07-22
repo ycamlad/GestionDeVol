@@ -115,6 +115,11 @@ void Aeroport::verifierInvariant() const {
     INVARIANT(estCodeValide(m_code))
 }
 
+const std::vector<std::unique_ptr<Vol>>& Aeroport::reqVols() const {
+    return m_vVols;
+}
+
+
 /**
  * \brief Retourne une chaine formatée représentant l'aéroport et ses vols
  *        Génère un tableau des départs et des arrivées à partir des vols enregistrés.

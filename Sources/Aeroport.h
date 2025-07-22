@@ -39,6 +39,8 @@
 
          void supprimeVol(const std::string& p_numero);
 
+         const std::vector<std::unique_ptr<Vol>>& reqVols() const;
+
          std::string reqAeroportFormate();
 
      private:

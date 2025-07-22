@@ -17,6 +17,7 @@
 #include "Aeroport.h"
 #include "Depart.h"
 #include "Arrivee.h"
+#include "QStandardItemModel"
 using namespace aerien;
 
 class FenetrePrincipal : public QMainWindow
@@ -30,8 +31,12 @@ public:
     void slotMenuArrivee();
     void slotMenuSupprimerVol();
 private:
-  Ui::FenetrePrincipal widget;
+private:
+    QStandardItemModel* modelDepart;
+    QStandardItemModel* modelArrivee;
+    Ui::FenetrePrincipal widget;
   Aeroport yul;
+  void rafraichirAffichage();
 };
 
 #endif /* _FENETREPRINCIPAL_H */
