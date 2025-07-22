@@ -1,15 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/qtFiles/form.h to edit this template
- */
-
-/* 
- * File:   FenetrePrincipal.h
- * Author: etudiant
- *
- * Created on 5 juillet 2025, 12 h 09
- */
-
 #ifndef _FENETREPRINCIPAL_H
 #define _FENETREPRINCIPAL_H
 

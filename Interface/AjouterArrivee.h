@@ -1,15 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/qtFiles/form.h to edit this template
- */
-
-/* 
- * File:   AjouterArrivee.h
- * Author: etudiant
- *
- * Created on 6 juillet 2025, 21 h 48
- */
-
 #ifndef _AJOUTERARRIVEE_H
 #define _AJOUTERARRIVEE_H
 

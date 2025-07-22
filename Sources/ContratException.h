@@ -1,11 +1,3 @@
-/**
- * \file   ContratException.h
- * \brief  Fichier contenant la déclaration de la classe ContratException et de ses héritiers
- * \author administrateur
- * \date 16 janvier 2014
- * \version révisée balises Doxygen C++ normes H2014
- */
-
 #ifndef CONTRATEXCEPTION_H_DEJA_INCLU
 #define CONTRATEXCEPTION_H_DEJA_INCLU
 

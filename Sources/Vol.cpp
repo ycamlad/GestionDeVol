@@ -1,15 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/cppFiles/class.cc to edit this template
- */
-
-/* 
- * File:   Vol.cpp
- * Author: etudiant
- * 
- * Created on 24 juin 2025, 16 h 42
- */
-
 #include "Vol.h"
 #include "validationFormat.h"
 #include "ContratException.h"

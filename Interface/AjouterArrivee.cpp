@@ -1,15 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/qtFiles/form.cc to edit this template
- */
-
-/*
- * File:   AjouterArrivee.cpp
- * Author: etudiant
- *
- * Created on 6 juillet 2025, 21 h 48
- */
-
 #include "AjouterArrivee.h"
 #include "QMessageBox"
 #include "validationFormat.h"

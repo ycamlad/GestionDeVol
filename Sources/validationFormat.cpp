@@ -1,10 +1,3 @@
-/**
- * \file validationFormat.cpp
- * \brief définition des fonctions de validation et d'ajustement de largeur
- * \author Mohamed Haj Taieb
- * \date 2025-05-29
- */
-
 #include "validationFormat.h"
 
 using namespace std;

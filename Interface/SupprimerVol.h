@@ -1,15 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/qtFiles/form.h to edit this template
- */
-
-/* 
- * File:   SupprimerVol.h
- * Author: etudiant
- *
- * Created on 7 juillet 2025, 11 h 51
- */
-
 #ifndef _SUPPRIMERVOL_H
 #define _SUPPRIMERVOL_H
 
