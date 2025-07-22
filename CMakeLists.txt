@@ -16,7 +16,7 @@ FetchContent_Declare(
 set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 FetchContent_MakeAvailable(googletest)
 # ==================== Qt ====================
-find_package(Qt5 COMPONENTS Widgets Svg REQUIRED)
+find_package(Qt5 COMPONENTS Widgets Svg Sql REQUIRED)
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOUIC ON)
@@ -37,12 +37,15 @@ add_executable(Gestion_de_vol main.cpp
         Interface/AjouterDepart.cpp
         Interface/FenetrePrincipal.cpp
         Interface/SupprimerVol.cpp
+        DataBase/databasemanager.cpp
+        DataBase/databasemanager.h
 )
 target_link_libraries(Gestion_de_vol
         Qt5::Core
         Qt5::Gui
         Qt5::Widgets
         Qt5::Svg
+        Qt5::Sql
 )
 qt5_add_resources(GENERATED_RESOURCES Resources/resources.qrc)
 target_sources(Gestion_de_vol PRIVATE ${GENERATED_RESOURCES})

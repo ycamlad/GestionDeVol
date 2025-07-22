@@ -16,14 +16,8 @@ int main(int argc, char *argv[]) {
     f.setFixedWidth(1018);
     f.setAutoFillBackground(true);
     QPalette palette;
-    palette.setBrush(f.backgroundRole(),QBrush(pixmap.scaled(f.size(),Qt::IgnoreAspectRatio,Qt::SmoothTransformation)));
+    palette.setBrush(f.backgroundRole(),QBrush(pixmap.scaled(f.size(),Qt::KeepAspectRatio,Qt::SmoothTransformation)));
     f.setPalette(palette);
-    //f.setStyleSheet("background-image: url(:/Resources/background.jpg);");
-//    f.setStyleSheet(R"(background-image: url(:/Resources/iconmonstr-airport-10-24.png);"
-//                    "background-repeat: no-repeat;"
-//                    "background-position: center;"
-//                    "background-size: cover;)");
-
 
     f.show();
     return QApplication::exec();
