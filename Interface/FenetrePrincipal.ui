@@ -14,7 +14,7 @@
    <string>FenetrePrincipal</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QTableView" name="tableViewDepart">
+   <widget class="QTableWidget" name="tableWidgetDepart">
     <property name="geometry">
      <rect>
       <x>50</x>
@@ -24,7 +24,7 @@
      </rect>
     </property>
    </widget>
-   <widget class="QTableView" name="tableViewArrivee">
+   <widget class="QTableWidget" name="tableWidgetArrivee">
     <property name="geometry">
      <rect>
       <x>50</x>
