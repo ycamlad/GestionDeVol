@@ -1,0 +1,49 @@
+# === NetBeans specific ===
+**/dist/
+**/build/
+**/nbproject/private
+**/nbproject/Makefile-Debug.mk
+**/nbproject/Makefile-Release.mk
+**/nbproject/Makefile-impl.mk
+**/nbproject/Makefile-variables.mk
+**/nbproject/Package-Debug.bash
+**/nbproject/Package-Release.bash
+**/*.dep.inc
+
+# === CLion / JetBrains IDEs ===
+.idea/
+cmake-build-*/
+*.iml
+
+# === CMake-generated files ===
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
+Makefile
+CTestTestfile.cmake
+Testing/
+install_manifest.txt
+
+# === GoogleTest via FetchContent
+*_deps/
+
+# === Qt (Meta Object Compiler, UI, Resource Compiler) ===
+moc_*.cpp
+ui_*.h
+qrc_*.cpp
+
+# === General build artifacts ===
+*.o
+*.obj
+*.so
+*.dll
+*.dylib
+*.exe
+*.a
+*.out
+*.log
+*.user
+
+# === System files ===
+.DS_Store
+Thumbs.db
