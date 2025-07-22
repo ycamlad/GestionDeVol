@@ -46,7 +46,7 @@ void FenetrePrincipal::slotMenuDepart(){
             Depart unDepart(interfaceDepart.reqNumero(), interfaceDepart.reqCompagnie(), interfaceDepart.reqHeure(),
                             interfaceDepart.reqVille(), interfaceDepart.reqEmbq(), interfaceDepart.reqPorte());
             yul.ajouterVol(unDepart);
-            //rafraichirAffichage();
+            rafraichirAffichage();
         }catch (VolDejaPresentException &e){
             QMessageBox::warning(this,"Erreur",e.what());
         }
@@ -61,7 +61,7 @@ void FenetrePrincipal::slotMenuArrivee(){
             Arrivee unArrivee(interfaceArrivee.reqNumero(), interfaceArrivee.reqCompagnie(),
                               interfaceArrivee.reqHeure(), interfaceArrivee.reqVille(), interfaceArrivee.reqStatus());
             yul.ajouterVol(unArrivee);
-            //rafraichirAffichage();
+            rafraichirAffichage();
         }catch (VolDejaPresentException &e){
             QMessageBox::warning(this,"Erreur",e.what());
         }
@@ -69,11 +69,11 @@ void FenetrePrincipal::slotMenuArrivee(){
 }
 
 void FenetrePrincipal::slotMenuSupprimerVol(){
-    SupprimerVol interfaceSupprimer;
+    SupprimerVol interfaceSupprimer(yul);
     if(interfaceSupprimer.exec()){
         try{
             yul.supprimeVol (interfaceSupprimer.reqNumero().c_str ());
-            //rafraichirAffichage();
+            rafraichirAffichage();
         }catch(VolAbsentException &e){
             QMessageBox::warning(this,"Erreur",e.what());
         }
@@ -96,7 +96,7 @@ void FenetrePrincipal::rafraichirAffichage() {
                 modelDepart->setItem(row, 4, new QStandardItem(QString::fromStdString(dep->reqHeureEmbarquement())));
                 modelDepart->setItem(row, 5, new QStandardItem(QString::fromStdString(dep->reqPorteEmbarquement())));
             }
-        } else {  // Arrivee
+        } else {
             const Arrivee* arr = dynamic_cast<const Arrivee*>(vol.get());
             if (arr) {
                 int row = modelArrivee->rowCount();
