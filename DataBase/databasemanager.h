@@ -18,8 +18,13 @@ class DatabaseManager : public QObject
 Q_OBJECT
 
 public:
-    explicit DatabaseManager(QObject *parent = nullptr);
-    ~DatabaseManager();
+    static DatabaseManager& instance();
+
+    // Delete copy/move constructors and assignment operators
+    DatabaseManager(const DatabaseManager&) = delete;
+    DatabaseManager& operator=(const DatabaseManager&) = delete;
+    DatabaseManager(DatabaseManager&&) = delete;
+    DatabaseManager& operator=(DatabaseManager&&) = delete;
 
     bool connect(const QString &dbName);
     bool createTables();
@@ -27,6 +32,9 @@ public:
     QList<QPair<int, QString>> getUsers();
 
 private:
+    explicit DatabaseManager(QObject *parent = nullptr);
+    ~DatabaseManager();
+
     QSqlDatabase db;
 };
 

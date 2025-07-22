@@ -1,9 +1,18 @@
 #include "databasemanager.h"
 
+// Static instance getter
+DatabaseManager& DatabaseManager::instance()
+{
+    static DatabaseManager instance;
+    return instance;
+}
+
+// Constructor
 DatabaseManager::DatabaseManager(QObject *parent) : QObject(parent)
 {
 }
 
+// Destructor
 DatabaseManager::~DatabaseManager()
 {
     if (db.isOpen()) {
@@ -11,10 +20,15 @@ DatabaseManager::~DatabaseManager()
     }
 }
 
+// Same methods as before
 bool DatabaseManager::connect(const QString &dbName)
 {
-    db = QSqlDatabase::addDatabase("QSQLITE");
-    db.setDatabaseName(dbName);
+    if (QSqlDatabase::contains("qt_sql_default_connection")) {
+        db = QSqlDatabase::database("qt_sql_default_connection");
+    } else {
+        db = QSqlDatabase::addDatabase("QSQLITE");
+        db.setDatabaseName(dbName);
+    }
 
     if (!db.open()) {
         qDebug() << "Database connection failed:" << db.lastError();
