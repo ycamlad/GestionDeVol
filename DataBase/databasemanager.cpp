@@ -14,6 +14,7 @@ DatabaseManager& DatabaseManager::instance()
  * \brief Constructeur avec paramètre
  *        Construit un objet DatabaseManager avec un pointeur QObject.
  * \param[in] parent Un pointeur vers celui qui instancie l'objet
+ * \pre parent ne doit pas etre NULL
  * **/
 DatabaseManager::DatabaseManager(QObject *parent) : QObject(parent)
 {
@@ -84,7 +85,7 @@ bool DatabaseManager::inserertUtilisateur(const QString &p_nom,
     return true;
 }
 /**
- * \brief Requete pour creer une liste des utilisateurs
+ * \brief Requete pour cree une liste des utilisateurs
  * \return Une liste des utilisateurs dans la base de donnee
  * **/
 QList<QPair<int, QString>> DatabaseManager::reqUtilisateurs()

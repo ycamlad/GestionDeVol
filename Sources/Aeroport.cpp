@@ -86,7 +86,7 @@ void Aeroport::ajouterVol(const Vol &p_vol) {
 
 /**
  * \brief Supprime un vol dans la liste des vols de l'aéroport
- * \param[in] p_numero Une référence vers un numero de Vol à ajouter
+ * \param[in] p_numero Une référence vers un numero de Vol à supprimer
  * \pre le p_numero ne doit pas être vide et la largeur du vecteur de vol doit excéder zero
  * \post Le vecteur m_vVols contient un vol de moins
  */
@@ -105,6 +105,39 @@ void Aeroport::supprimeVol(const std::string &p_numero) {
     throw VolAbsentException("Le vol " + p_numero + " n'existe pas!");
     POSTCONDITION(m_vVols.size()==avant-1)
     INVARIANTS();
+}
+
+/**
+ * \brief Modifie un vol dans la liste des vols de l'aéroport
+ * \param[in] p_numero Une référence vers un numero de Vol pour l'identifiacation du vol
+ * \param[in] p_heure Une référence vers une heure de Vol à modifier
+ * \param[in] p_hembq Une référence vers une heure d'embrquement Vol à modifier
+ * \param[in] p_porte Une référence vers un code de porte de Vol à modifier
+ * \param[in] p_statut Une référence vers un statut de Vol à modifier
+ * \pre Le parametre p_numero ne peut pas etre vide
+ * \pre Le membre vector m_vVols ne peut pas etre vide
+ * **/
+void Aeroport::modifierVol(const std::string &p_numero,const std::string& p_heure="" ,const std::string& p_hembq="",const std::string& p_porte="",const std::string& p_statut=""){
+    PRECONDITION(!p_numero.empty())
+    PRECONDITION(!m_vVols.empty())
+
+    for (auto & m_vVol : m_vVols) {
+        if (m_vVol->reqNumero() == p_numero) {
+            if(m_vVol->reqVolFormate().size()==66){
+                auto depart =dynamic_cast<Depart *>(m_vVol.get());
+
+                if(!p_heure.empty()) depart->asgHeureVol(p_heure);
+                if(!p_hembq.empty()) depart->asgHeureEmbarquement(p_hembq);
+                if(!p_porte.empty()) depart->asgPorteEmbarquement(p_porte);
+            }else{
+                auto arrivee = dynamic_cast<Arrivee *>(m_vVol.get());
+                if(!p_heure.empty()) arrivee->asgHeureVol(p_heure);
+                if(!p_statut.empty()) arrivee->asgStatut(p_statut);
+            }
+            return;
+        }
+    }
+    throw VolAbsentException("Le vol " + p_numero + " n'existe pas!");
 }
 
 /**
