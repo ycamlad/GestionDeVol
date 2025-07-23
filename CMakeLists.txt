@@ -136,15 +136,30 @@ add_executable(aeroportTests
 )
 target_link_libraries(aeroportTests gtest_main)
 
+add_executable(DBTests
+        DataBase/tests/DatabaseManagerTesteur.cpp
+        Sources/Aeroport.cpp
+        Sources/ContratException.cpp
+        Sources/validationFormat.cpp
+        Sources/VolException.h
+        Sources/VolDejaPresentException.h
+        Sources/VolAbsentException.h
+        Sources/Arrivee.cpp
+        Sources/Vol.cpp
+        Sources/Depart.cpp
+)
+target_link_libraries(DBTests gtest_main)
 # ==================== Google Test Discovery ====================
 include(GoogleTest)
 gtest_discover_tests(volTests)
 gtest_discover_tests(departTests)
 gtest_discover_tests(arriveTests)
 gtest_discover_tests(aeroportTests)
+gtest_discover_tests(DBTests)
 
 # ==================== Manual Test Registration (Optional) ====================
 add_test(NAME VolTests COMMAND volTests)
 add_test(NAME DepartTests COMMAND departTests)
 add_test(NAME ArriveeTests COMMAND arriveTests)
 add_test(NAME AeroportTests COMMAND aeroportTests)
+add_test(NAME DBtests COMMAND dbTests)

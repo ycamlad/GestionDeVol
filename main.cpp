@@ -1,7 +1,6 @@
 #include <QApplication>
 #include "Interface/FenetrePrincipal.h"
 #include "QDebug"
-#include <QtGui>
 
 
 int main(int argc, char *argv[]) {

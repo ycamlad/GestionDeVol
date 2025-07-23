@@ -12,7 +12,10 @@ DatabaseManager::DatabaseManager(QObject *parent) : QObject(parent)
 {
 }
 
-// Destructor
+/**
+ *\brief Destructeur de la classe DatabaseManager ferme la deconnecte si connecter
+ *
+ * **/
 DatabaseManager::~DatabaseManager()
 {
     if (db.isOpen()) {
@@ -20,7 +23,11 @@ DatabaseManager::~DatabaseManager()
     }
 }
 
-// Same methods as before
+/**
+ * \brief Connection a la base de donner partager en parametre
+ * \param[in]dbName
+ * \return True ou False
+ * **/
 bool DatabaseManager::connect(const QString &dbName)
 {
     if (QSqlDatabase::contains("qt_sql_default_connection")) {
@@ -57,6 +64,11 @@ bool DatabaseManager::createTables()
     return true;
 }
 
+/**
+ * \brief requete pour creation d'un utilisateur dans la table utilisateur
+ * \param[in]name
+ * \return True ou False
+ * **/
 bool DatabaseManager::insertUser(const QString &name)
 {
     QSqlQuery query;
@@ -70,7 +82,10 @@ bool DatabaseManager::insertUser(const QString &name)
 
     return true;
 }
-
+/**
+ * \brief requete pour creer une liste des utilisateurs
+ * \return Une liste d'utilisateurs
+ * **/
 QList<QPair<int, QString>> DatabaseManager::getUsers()
 {
     QList<QPair<int, QString>> users;
