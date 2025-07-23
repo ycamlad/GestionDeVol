@@ -57,24 +57,6 @@ bool DatabaseManager::connect(const QString &dbName)
     return true;
 }
 
-bool DatabaseManager::createTables()
-{
-    QSqlQuery query;
-    QString createTable = R"(
-        CREATE TABLE IF NOT EXISTS users (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            name TEXT NOT NULL
-        )
-    )";
-
-    if (!query.exec(createTable)) {
-        qDebug() << "Failed to create table:" << query.lastError();
-        return false;
-    }
-
-    return true;
-}
-
 /**
  * \brief Requete pour la creation d'un utilisateur dans la table utilisateur
  * \param[in]name Une chaine représentant le nom de l'utilisateur
