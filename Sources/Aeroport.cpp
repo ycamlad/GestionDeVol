@@ -117,15 +117,14 @@ void Aeroport::supprimeVol(const std::string &p_numero) {
  * \pre Le parametre p_numero ne peut pas etre vide
  * \pre Le membre vector m_vVols ne peut pas etre vide
  * **/
-void Aeroport::modifierVol(const std::string &p_numero,const std::string& p_heure="" ,const std::string& p_hembq="",const std::string& p_porte="",const std::string& p_statut=""){
+void Aeroport::modifierVol(const std::string &p_numero,const std::string& p_heure,const std::string& p_hembq,const std::string& p_porte,const std::string& p_statut){
     PRECONDITION(!p_numero.empty())
     PRECONDITION(!m_vVols.empty())
 
     for (auto & m_vVol : m_vVols) {
         if (m_vVol->reqNumero() == p_numero) {
-            if(m_vVol->reqVolFormate().size()==66){
+            if(m_vVol->estDepart()){
                 auto depart =dynamic_cast<Depart *>(m_vVol.get());
-
                 if(!p_heure.empty()) depart->asgHeureVol(p_heure);
                 if(!p_hembq.empty()) depart->asgHeureEmbarquement(p_hembq);
                 if(!p_porte.empty()) depart->asgPorteEmbarquement(p_porte);
@@ -164,7 +163,7 @@ std::string Aeroport::reqAeroportFormate() {
     std::vector<std::unique_ptr<Vol>> arrivee;
 
     for(auto &e : m_vVols){
-        if(e->reqVolFormate().size()==66) depart.push_back(e->clone());
+        if(e->estDepart()) depart.push_back(e->clone());
         else arrivee.push_back(e->clone());
     }
     formater.append(m_code+"\n");

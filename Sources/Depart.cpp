@@ -36,9 +36,10 @@ Depart::Depart(const std::string &p_numero, const std::string &p_compagnie, cons
 }
 
 /**
- * \brief Destructeur
- */
-Depart::~Depart() = default;
+ * \brief Verifie si l'objet est un depart ou un arrivee
+ * \return Un true parce que c'est un depart
+ * **/
+bool Depart::estDepart() const {return true;}
 
 /**
  * \brief Accesseur pour l’heure d’embarquement

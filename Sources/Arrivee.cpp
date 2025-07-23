@@ -30,6 +30,12 @@ Arrivee::Arrivee(const std::string &p_numero, const std::string &p_compagnie, co
 }
 
 /**
+ * \brief Verifie si l'objet est un depart ou un arrivee
+ * \return Un false parce que c'est un arrivee
+ * **/
+bool Arrivee::estDepart() const { return false;}
+
+/**
  * \brief Accesseur pour le statut du vol
  * \return Une chaîne représentant le statut actuel du vol
  */

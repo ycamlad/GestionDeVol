@@ -37,6 +37,8 @@ namespace aerien {
         std::string m_statut;
 
         void verifierInvariant() const;
+
+        bool estDepart() const;
     };
 }
 

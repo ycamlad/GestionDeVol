@@ -23,7 +23,6 @@ namespace aerien {
                const std::string &p_ville, const std::string &p_heureEmbarquement,
                const std::string &p_porteEmbarquement);
 
-        virtual ~Depart();
 
         const std::string &reqPorteEmbarquement() const;
 
@@ -42,6 +41,8 @@ namespace aerien {
         std::string m_heureEmbarquement;
 
         void verifierInvariant() const;
+
+        bool estDepart() const;
     };
 }
 

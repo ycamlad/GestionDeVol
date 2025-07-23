@@ -22,8 +22,7 @@ DatabaseManager::DatabaseManager(QObject *parent) : QObject(parent)
 }
 
 /**
- *\brief Destructeur qui ferme la connection de la base de donnee si ouvert.
- *
+ *\brief Destructeur qui ferme la connection de la base de donnee.
  * **/
 DatabaseManager::~DatabaseManager()
 {

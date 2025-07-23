@@ -39,7 +39,7 @@
 
          void supprimeVol(const std::string& p_numero);
 
-         void modifierVol(const std::string &p_numero,const std::string& p_heure,const std::string& p_hembq,const std::string& p_porte,const std::string& p_statut);
+         void modifierVol(const std::string &p_numero,const std::string& p_heure="" ,const std::string& p_hembq="",const std::string& p_porte="",const std::string& p_statut="");
 
          const std::vector<std::unique_ptr<Vol>>& reqVols() const;
 

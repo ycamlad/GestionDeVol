@@ -79,7 +79,7 @@ void FenetrePrincipal::rafraichirAffichage() {
     widget.tableWidgetArrivee->setRowCount(0);
 
     for (const auto &vol: yul.reqVols()) {
-        if (vol->reqVolFormate().size() == 66) {
+        if (vol->estDepart()) {
             int row = widget.tableWidgetDepart->rowCount();
             widget.tableWidgetDepart->insertRow(row);
 

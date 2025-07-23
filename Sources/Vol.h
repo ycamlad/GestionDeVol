@@ -39,6 +39,7 @@ namespace aerien {
         bool operator==(const Vol &p_vol) const;
 
         virtual std::unique_ptr<Vol> clone() const = 0;
+        virtual bool estDepart() const =0;
 
         virtual std::string reqVolFormate() const;
 
