@@ -80,7 +80,7 @@ bool DatabaseManager::createTables()
  * \param[in]name Une chaine représentant le nom de l'utilisateur
  * \return Une valeur boolean représentant le success ou non success de l'operation
  * **/
-bool DatabaseManager::insertUser(const QString &p_nom,
+bool DatabaseManager::inserertUtilisateur(const QString &p_nom,
                                  const QString &p_nomAeroport,
                                  const QString &p_role,
                                  const QString &p_motDePass,
@@ -108,7 +108,7 @@ bool DatabaseManager::insertUser(const QString &p_nom,
 QList<QPair<int, QString>> DatabaseManager::reqUtilisateurs()
 {
     QList<QPair<int, QString>> users;
-    QSqlQuery query("SELECT ID, name FROM users");
+    QSqlQuery query("SELECT ID, Nom FROM users");
 
     while (query.next()) {
         int id = query.value(0).toInt();
@@ -123,7 +123,7 @@ QList<QPair<int, QVector<QVector<QString>>>> DatabaseManager::reqVols(const QStr
 {
     PRECONDITION(!p_role.isEmpty())
     PRECONDITION(p_uid>=0)
-    
+
     QList<QPair<int, QVector<QVector<QString>>>> Vols;
 
     QVector<QVector<QString>> depart;
