@@ -17,10 +17,7 @@ set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 FetchContent_MakeAvailable(googletest)
 # ==================== Qt ====================
 find_package(Qt5 COMPONENTS Widgets Svg Sql REQUIRED)
-set(CMAKE_AUTOMOC ON)
-set(CMAKE_AUTORCC ON)
-set(CMAKE_AUTOUIC ON)
-include_directories(Sources)
+include_directories(Sources DataBase)
 
 # ==================== Main Executable ====================
 add_executable(Gestion_de_vol main.cpp
@@ -39,6 +36,7 @@ add_executable(Gestion_de_vol main.cpp
         Interface/SupprimerVol.cpp
         DataBase/databasemanager.cpp
         DataBase/databasemanager.h
+        DataBase/DataBaseException.h
 )
 
 if(CMAKE_BUILD_TYPE STREQUAL "Debug")
@@ -48,6 +46,13 @@ if(CMAKE_BUILD_TYPE STREQUAL "Debug")
             "$<TARGET_FILE:Gestion_de_vol>"
     )
 endif()
+
+add_custom_command(TARGET Gestion_de_vol POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_if_different
+        "C:/Users/chris/OneDrive/Documents/Voldb.db"
+        "$<TARGET_FILE_DIR:Gestion_de_vol>/Voldb.db"
+)
+
 
 target_link_libraries(Gestion_de_vol
         Qt5::Core
@@ -61,6 +66,7 @@ target_sources(Gestion_de_vol PRIVATE ${GENERATED_RESOURCES})
 
 add_executable(Console
         Console/main.cpp
+        DataBase/databasemanager.cpp
         Sources/Aeroport.cpp
         Sources/Arrivee.cpp
         Sources/ContratException.cpp
@@ -70,10 +76,12 @@ add_executable(Console
         Sources/VolException.h
         Sources/VolDejaPresentException.h
         Sources/VolAbsentException.h
+        DataBase/DataBaseException.h
 )
 
-
-
+target_link_libraries(Console
+        Qt5::Sql
+)
 if (WIN32 AND NOT DEFINED CMAKE_TOOLCHAIN_FILE)
     set(DEBUG_SUFFIX)
     if (MSVC AND CMAKE_BUILD_TYPE MATCHES "Debug")
@@ -158,6 +166,7 @@ add_executable(DBTests
         Sources/Arrivee.cpp
         Sources/Vol.cpp
         Sources/Depart.cpp
+        DataBase/DataBaseException.h
 )
 target_link_libraries(DBTests gtest_main)
 # ==================== Google Test Discovery ====================

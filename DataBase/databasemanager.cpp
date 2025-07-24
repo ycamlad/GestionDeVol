@@ -1,6 +1,8 @@
 #include "databasemanager.h"
 #include "ContratException.h"
+#include "DataBaseException.h"
 #include <QSqlRecord>
+#include "QSqlQueryModel"
 
 
 // Static instance getter
@@ -18,8 +20,8 @@ DatabaseManager& DatabaseManager::instance()
  * **/
 DatabaseManager::DatabaseManager(QObject *parent) : QObject(parent)
 {
-    PRECONDITION(parent!=nullptr)
 }
+
 
 /**
  *\brief Destructeur qui ferme la connection de la base de donnee.
@@ -45,13 +47,13 @@ bool DatabaseManager::connect(const QString &dbName)
         db = QSqlDatabase::database("qt_sql_default_connection");
     } else {
         db = QSqlDatabase::addDatabase("QSQLITE");
-        db.setDatabaseName(dbName);
+        db.setDatabaseName("Voldb.db");
     }
 
-    if (!db.open()) {
-        qDebug() << "Database connection failed:" << db.lastError();
-        return false;
-    }
+    if (!db.open())throw DatabaseException("La connection à la base de donnée est invalide:", "");
+
+    QSqlQuery pragmaQuery;
+    pragmaQuery.exec("PRAGMA foreign_keys = ON;");
 
     qDebug() << "Database connected.";
     return true;
@@ -62,24 +64,22 @@ bool DatabaseManager::connect(const QString &dbName)
  * \param[in]name Une chaine représentant le nom de l'utilisateur
  * \return Une valeur boolean représentant le success ou non success de l'operation
  * **/
-bool DatabaseManager::inserertUtilisateur(const QString &p_nom,
-                                 const QString &p_nomAeroport,
-                                 const QString &p_role,
-                                 const QString &p_motDePass,
-                                 bool p_statut)
+bool DatabaseManager::inserertUtilisateur(
+        const QString &p_nom,
+        const QString &p_nomAeroport,
+        const QString &p_role,
+        const QString &p_motDePass,
+        bool p_statut)
 {
     QSqlQuery query;
-    query.prepare("INSERT INTO users (Nom,NAeroport,Role,Pass,Statut) VALUES (:nom,:na,:role,:pass,:stat)");
+    query.prepare("INSERT INTO Utilisateurs (Nom,NAeroport,Role,Pass,Statut) VALUES (:nom,:na,:role,:pass,:stat)");
     query.bindValue(":nom", p_nom);
     query.bindValue(":na",p_nomAeroport);
     query.bindValue(":role",p_role);
     query.bindValue(":pass",p_motDePass);
     query.bindValue(":stat",p_statut);
 
-    if (!query.exec()) {
-        qDebug() << "Insert failed:" << query.lastError();
-        return false;
-    }
+    if (!query.exec()) throw DatabaseException("Insertion invalide:",query.lastError().text());
 
     return true;
 }
@@ -87,71 +87,76 @@ bool DatabaseManager::inserertUtilisateur(const QString &p_nom,
  * \brief Requete pour cree une liste des utilisateurs
  * \return Une liste des utilisateurs dans la base de donnee
  * **/
-QList<QPair<int, QString>> DatabaseManager::reqUtilisateurs()
-{
-    QList<QPair<int, QString>> users;
-    QSqlQuery query("SELECT ID, Nom FROM users");
+//QList<QPair<int, QString>> DatabaseManager::reqUtilisateurs()
+//{
+//    QList<QPair<int, QString>> users;
+//    QSqlQuery query("SELECT ID, Nom FROM users");
+//
+//    if(!query.exec()) throw DatabaseException("Requete invalide:",query.lastError().text());
+//
+//    while (query.next()) {
+//        int id = query.value(0).toInt();
+//        QString name = query.value(1).toString();
+//        users.append(qMakePair(id, name));
+//    }
+//
+//    return users;
+//}
 
-    while (query.next()) {
-        int id = query.value(0).toInt();
-        QString name = query.value(1).toString();
-        users.append(qMakePair(id, name));
-    }
+//QList<QPair<int, QVector<QVector<QString>>>> DatabaseManager::reqVols(const QString& p_role, int p_uid)
+//{
+//    PRECONDITION(!p_role.isEmpty())
+//    int total =0;
+//    QList<QPair<int, QVector<QVector<QString>>>> Vols;
+//
+//
+//    QVector<QVector<QString>> depart;
+//    QVector<QVector<QString>> arrivee;
+//
+//    QSqlQuery query;
+//    QSqlQueryModel *m = new QSqlQueryModel;
+//
+//    // Role-based filtering
+//    if (p_role == "Admin") {
+//        query.prepare("SELECT NumVol, TypeVol, Compagnie, Heure, Ville, HEmbq, PNum, Statut FROM Vols");
+//        m->setQuery("SELECT NumVol, TypeVol, Compagnie, Heure, Ville, HEmbq, PNum, Statut FROM Vols");
+//
+//
+//    } else {
+//        query.prepare("SELECT NumVol, TypeVol, Compagnie, Heure, Ville, HEmbq, PNum, Statut "
+//                      "FROM Vols WHERE UID = :uid");
+//        query.bindValue(":uid", p_uid);
+//    }
+//
+//    if (!query.exec()) throw DatabaseException("Requete Invalide:",query.lastError().text());
+//
+//    m->fetchMore();
+//    int t = m->rowCount();
+//
+//    while (query.next()) {
+//        int typeVol = query.value(1).toInt();
+//
+//        QVector<QString> row;
+//
+//        for (int i = 0; i < query.record().count(); ++i) {
+//            QVariant val = query.value(i);
+//            if (!(val.isNull() || val.toString().trimmed().isEmpty())) row.append(val.toString());
+//        }
+//
+//        if (row.isEmpty()) continue;
+//
+//        if (typeVol == 0)
+//            depart.append(row);
+//        else if (typeVol == 1)
+//            arrivee.append(row);
+//    }
+//
+//    if (!depart.isEmpty())
+//        Vols.append(qMakePair(0, depart));
+//    if (!arrivee.isEmpty())
+//        Vols.append(qMakePair(1, arrivee));
+//
+//    delete m;
+//    return Vols;
+//}
 
-    return users;
-}
-
-QList<QPair<int, QVector<QVector<QString>>>> DatabaseManager::reqVols(const QString& p_role, int p_uid=0)
-{
-    PRECONDITION(!p_role.isEmpty())
-    PRECONDITION(p_uid>=0)
-
-    QList<QPair<int, QVector<QVector<QString>>>> Vols;
-
-    QVector<QVector<QString>> depart;
-    QVector<QVector<QString>> arrivee;
-
-    QSqlQuery query;
-
-    // Role-based filtering
-    if (p_role == "Admin") {
-        query.prepare("SELECT NumVol, TypeVol, Compagnie, Heure, Ville, HEmbq, PNum, Statut FROM Vols");
-    } else {
-        query.prepare("SELECT NumVol, TypeVol, Compagnie, Heure, Ville, HEmbq, PNum, Statut "
-                      "FROM Vols WHERE UID = :uid");
-        query.bindValue(":uid", p_uid);
-    }
-
-    if (!query.exec()) {
-        qDebug() << "Query failed:" << query.lastError();
-        return Vols;
-    }
-
-    while (query.next()) {
-        int typeVol = query.value(1).toInt();
-
-        QVector<QString> row;
-        for (int i = 0; i < query.record().count(); ++i) {
-            QVariant val = query.value(i);
-            if (val.isNull() || val.toString().trimmed().isEmpty()) {
-                row.clear();
-                break;
-            }
-            row.append(val.toString());
-        }
-
-        if (row.isEmpty()) continue;
-
-        if (typeVol == 0)
-            depart.append(row);
-        else if (typeVol == 1)
-            arrivee.append(row);
-    }
-
-    if (!depart.isEmpty())
-        Vols.append(qMakePair(0, depart));
-    if (!arrivee.isEmpty())
-        Vols.append(qMakePair(1, arrivee));
-
-    return Vols;
-}

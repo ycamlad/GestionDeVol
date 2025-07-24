@@ -26,16 +26,16 @@ public:
     DatabaseManager(DatabaseManager&&) = delete;
     DatabaseManager& operator=(DatabaseManager&&) = delete;
 
-    bool connect(const QString &dbName);
-    bool createTables();
+    bool connect(const QString &dbName="Voldb");
     bool inserertUtilisateur(const QString &p_nom,const QString &p_nomAeroport,const QString &p_role,const QString &p_motDePass,bool p_statut);
-    QList<QPair<int, QString>> reqUtilisateurs();
-    QList<QPair<int, QVector<QVector<QString>>>>reqVols(const QString& p_role,int p_uid);
+//    QList<QPair<int, QString>> reqUtilisateurs();
+//    QList<QPair<int, QVector<QVector<QString>>>>reqVols(const QString& p_role,int p_uid=0);
 
 
 private:
     explicit DatabaseManager(QObject *parent = nullptr);
-    ~DatabaseManager();
+
+        ~DatabaseManager();
 
     QSqlDatabase db;
 };

@@ -1,26 +1,42 @@
 #include <iostream>
-using namespace std;
 #include "Aeroport.h"
 #include "Depart.h"
 #include "Arrivee.h"
 #include <clocale>
 #include "validationFormat.h"
+#include "databasemanager.h"
+#include "DataBaseException.h"
 
-
+using namespace std;
 using namespace aerien;
 using namespace util;
 void fonctionPrincipal();
 int main ()
 {
     std::setlocale(LC_ALL, ".UTF8");
+    try {
+        DatabaseManager &db = DatabaseManager::instance();
+        db.connect();
+        auto ls = db.reqVols("Admin");
+        for(auto &e : ls){
+            std::cout<<e.first<<std::endl;
+            for(auto &x:e.second){
+                for(auto &y : x){
+                    std::cout<<y.toStdString()<<std::endl;
+                }
+            }
+        }
+    }catch(DatabaseException &e){
+        std::cout<<e.what();
+    }
 
-   Aeroport art = Aeroport("YUL");
-   art.ajouterVol(Depart("AC1636","AIR CANADA","18:00","ORLONDO","17:15","C86"));
-   //art.ajouterVol(Depart("AC1636","AIR CANADA","18:00","ORLONDO","17:15","C86"));
-    art.ajouterVol(Arrivee("RJ0271","ROYAL JORDANIAN","07:12","AMMAN"," Retardé "));
-   //art.supprimeVol("AC1589");
-  // art.modifierVol("AC1636","","17:15","B90");
-    cout<<art.reqAeroportFormate ();
+//   Aeroport art = Aeroport("YUL");
+//   art.ajouterVol(Depart("AC1636","AIR CANADA","18:00","ORLONDO","17:15","C86"));
+//   //art.ajouterVol(Depart("AC1636","AIR CANADA","18:00","ORLONDO","17:15","C86"));
+//    art.ajouterVol(Arrivee("RJ0271","ROYAL JORDANIAN","07:12","AMMAN"," Retardé "));
+//   //art.supprimeVol("AC1589");
+//  // art.modifierVol("AC1636","","17:15","B90");
+//    cout<<art.reqAeroportFormate ();
   return 0;
 }
 

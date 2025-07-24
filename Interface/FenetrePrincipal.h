@@ -25,7 +25,7 @@ private:
     QStandardItemModel* modelArrivee;
     Ui::FenetrePrincipal widget;
   Aeroport yul;
-  void rafraichirAffichage();
+  //void rafraichirAffichage();
   QIcon icon();
 };
 

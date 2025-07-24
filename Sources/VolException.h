@@ -6,7 +6,6 @@
 #define TP3QT_VOLEXCEPTION_H
 #include <stdexcept>
 #include "string"
-#include "ContratException.h"
 
 class VolException : public std::runtime_error {
 public:
@@ -14,10 +13,6 @@ public:
         //PRECONDITION(p_raison.empty())
         //POSTCONDITION(m_raison==p_raison);
         //INVARIANTS();
-    }
-
-    void verifierInvariant() const {
-        INVARIANT(!m_raison.empty())
     }
 private:
     std::string m_raison;
