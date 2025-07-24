@@ -6,27 +6,58 @@
 #include "VolAbsentException.h"
 #include <QMessageBox>
 #include <QTableWidgetItem>
+#include <memory>
 #include "QSvgWidget"
 #include "QSqlQueryModel"
 #include "databasemanager.h"
 
 /**
- * faire une methode statique qui va utiliser 
+ * faire une methode statique qui va renvoyer le resultat d'une requete
+ * ou encore instancier un objet db manager a la creation de la fenetre principal
  * **/
-FenetrePrincipal::FenetrePrincipal ():yul("YUL")
+FenetrePrincipal::FenetrePrincipal ():db(DatabaseManager::instance())
 {
-    DatabaseManager &db =DatabaseManager::instance();
+
     db.connect();
 
-    QSqlQueryModel *model = new QSqlQueryModel (this);
+    std::string ar = "YUL";
+    // int u = 1;
+    QSqlQuery query;
+//    query.prepare("SELECT NAeroport FROM Utilisateurs WHERE NAeroport =:na");
+//    query.bindValue(":na",QString::fromStdString(ar));
+//    //query.bindValue(":id",u);
+//    query.exec();
+//    std::string na =(query.value(0).toString()).toStdString();
 
-    model->setQuery("SELECT NumVol, TypeVol, Compagnie, Heure, Ville, HEmbq, PNum, Statut FROM Vols");
+
+    query.prepare("SELECT NumVol, TypeVol, Compagnie, Heure, Ville, HEmbq, PNum, Statut FROM Vols");
+    //query.bindValue(":ae",QString::fromStdString(ar));
 
 
-    //yul.ajouterVol(Depart("AC1636","AIR CANADA","18:00","ORLONDO","17:15","C85"));
-    //yul.ajouterVol(Arrivee("RJ0271","ROYAL JORDANIAN","07:12","AMMAN"," Atterri "));
+    query.exec();
+
+    auto model = std::make_unique<QSqlQueryModel>(this);
+    model->setQuery(query);
+
+
+    //Aeroport a (na);
+    //a.ajouterVol(Depart("AC1636","AIR CANADA","18:00","ORLONDO","17:15","C85"));
+    //a.ajouterVol(Arrivee("RJ0271","ROYAL JORDANIAN","07:12","AMMAN"," Atterri "));
     widget.setupUi (this);
-    widget.tableViewDepart->setModel(model);
+
+    widget.tableViewDepart->setModel(model.get());
+//    for(int i =0;i<model.get()->rowCount();++i){
+//        bool vol = model->data(model->index(i,1)).toInt();
+//        if(!vol){
+//            widget.tableViewDepart->setModel(model.get());
+//            widget.tableViewDepart->hideColumn(7);
+//        }else{
+//            widget.tableViewArrivee->setModel(model.get());
+//            widget.tableViewArrivee->hideColumn(5);
+//            widget.tableViewArrivee->hideColumn(6);
+//        }
+//    }
+    //widget.tableViewDepart->setModel(model.get());
 
     // For Depart table
     //widget.tableWidgetDepart->setColumnCount(6);
@@ -73,18 +104,18 @@ void FenetrePrincipal::slotMenuArrivee(){
     }
 }
 
-void FenetrePrincipal::slotMenuSupprimerVol(){
-    SupprimerVol interfaceSupprimer(yul);
-    interfaceSupprimer.setWindowIcon(icon());
-    if(interfaceSupprimer.exec()){
-        try{
-            //yul.supprimeVol (interfaceSupprimer.reqNumero());
-            //rafraichirAffichage();
-        }catch(VolAbsentException &e){
-            QMessageBox::warning(this,"Erreur",e.what());
-        }
-    }
-}
+//void FenetrePrincipal::slotMenuSupprimerVol(){
+//    SupprimerVol interfaceSupprimer(yul);
+//    interfaceSupprimer.setWindowIcon(icon());
+//    if(interfaceSupprimer.exec()){
+//        try{
+//            //yul.supprimeVol (interfaceSupprimer.reqNumero());
+//            //rafraichirAffichage();
+//        }catch(VolAbsentException &e){
+//            QMessageBox::warning(this,"Erreur",e.what());
+//        }
+//    }
+//}
 
 //void FenetrePrincipal::rafraichirAffichage() {
 //    widget.tableWidgetDepart->clearContents();
@@ -124,4 +155,8 @@ void FenetrePrincipal::slotMenuSupprimerVol(){
 
 QIcon FenetrePrincipal::icon() {
     return QIcon(":/Resources/iconmonstr-airport-10-240.png");
+}
+
+void FenetrePrincipal::slotMenuSupprimerVol() {
+
 }

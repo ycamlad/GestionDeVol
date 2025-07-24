@@ -1,5 +1,5 @@
-#ifndef _FENETREPRINCIPAL_H
-#define _FENETREPRINCIPAL_H
+#ifndef FENETREPRINCIPAL_H
+#define FENETREPRINCIPAL_H
 
 #include "ui_FenetrePrincipal.h"
 #include "Aeroport.h"
@@ -7,6 +7,7 @@
 #include "Arrivee.h"
 #include "QStandardItemModel"
 #include "QApplication"
+#include "databasemanager.h"
 using namespace aerien;
 
 class FenetrePrincipal : public QMainWindow
@@ -14,19 +15,25 @@ class FenetrePrincipal : public QMainWindow
   Q_OBJECT
 public:
   FenetrePrincipal ();
-  virtual ~FenetrePrincipal ();
+    //DatabaseManager &db=DatabaseManager::instance();
+
+
+    virtual ~FenetrePrincipal ();
   private slots:
     void slotMenuDepart();
     void slotMenuArrivee();
     void slotMenuSupprimerVol();
 private:
 private:
-    QStandardItemModel* modelDepart;
-    QStandardItemModel* modelArrivee;
+    //QStandardItemModel& modelDepart;
+    //QStandardItemModel& modelArrivee;
     Ui::FenetrePrincipal widget;
-  Aeroport yul;
+    DatabaseManager &db;
+    //Aeroport yul;
+
+
   //void rafraichirAffichage();
   QIcon icon();
 };
 
-#endif /* _FENETREPRINCIPAL_H */
+#endif /* FENETREPRINCIPAL_H */
