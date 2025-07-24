@@ -19,7 +19,7 @@ int main ()
    //art.ajouterVol(Depart("AC1636","AIR CANADA","18:00","ORLONDO","17:15","C86"));
     art.ajouterVol(Arrivee("RJ0271","ROYAL JORDANIAN","07:12","AMMAN"," Retardé "));
    //art.supprimeVol("AC1589");
-   art.modifierVol("AC1636","","17:15","B90");
+  // art.modifierVol("AC1636","","17:15","B90");
     cout<<art.reqAeroportFormate ();
   return 0;
 }

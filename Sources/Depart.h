@@ -23,6 +23,7 @@ namespace aerien {
                const std::string &p_ville, const std::string &p_heureEmbarquement,
                const std::string &p_porteEmbarquement);
 
+        ~Depart() override =default;
 
         const std::string &reqPorteEmbarquement() const;
 

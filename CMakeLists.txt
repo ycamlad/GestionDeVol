@@ -40,6 +40,15 @@ add_executable(Gestion_de_vol main.cpp
         DataBase/databasemanager.cpp
         DataBase/databasemanager.h
 )
+
+if(CMAKE_BUILD_TYPE STREQUAL "Debug")
+    add_custom_command(TARGET Gestion_de_vol POST_BUILD
+            COMMAND ${CMAKE_COMMAND} -E echo "Running windeployqt for Debug build..."
+            COMMAND "C:/Qt/5.15.2/mingw81_64/bin/windeployqt.exe"
+            "$<TARGET_FILE:Gestion_de_vol>"
+    )
+endif()
+
 target_link_libraries(Gestion_de_vol
         Qt5::Core
         Qt5::Gui
@@ -62,6 +71,8 @@ add_executable(Console
         Sources/VolDejaPresentException.h
         Sources/VolAbsentException.h
 )
+
+
 
 if (WIN32 AND NOT DEFINED CMAKE_TOOLCHAIN_FILE)
     set(DEBUG_SUFFIX)

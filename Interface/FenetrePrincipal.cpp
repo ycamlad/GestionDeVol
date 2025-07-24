@@ -64,7 +64,7 @@ void FenetrePrincipal::slotMenuSupprimerVol(){
     interfaceSupprimer.setWindowIcon(icon());
     if(interfaceSupprimer.exec()){
         try{
-            yul.supprimeVol (interfaceSupprimer.reqNumero().c_str ());
+            yul.supprimeVol (interfaceSupprimer.reqNumero());
             rafraichirAffichage();
         }catch(VolAbsentException &e){
             QMessageBox::warning(this,"Erreur",e.what());
