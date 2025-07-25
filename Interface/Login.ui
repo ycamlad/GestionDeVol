@@ -32,11 +32,14 @@
   <widget class="QLineEdit" name="lineEditNom">
    <property name="geometry">
     <rect>
-     <x>110</x>
+     <x>130</x>
      <y>130</y>
      <width>161</width>
      <height>20</height>
     </rect>
+   </property>
+   <property name="text">
+    <string>Chris</string>
    </property>
    <property name="placeholderText">
     <string>Nom d'utilisateur:</string>
@@ -45,29 +48,29 @@
   <widget class="QLineEdit" name="lineEditPass">
    <property name="geometry">
     <rect>
-     <x>110</x>
+     <x>130</x>
      <y>180</y>
      <width>161</width>
      <height>20</height>
     </rect>
    </property>
    <property name="text">
-    <string/>
+    <string>12345</string>
    </property>
    <property name="maxLength">
     <number>15</number>
    </property>
+   <property name="echoMode">
+    <enum>QLineEdit::Password</enum>
+   </property>
    <property name="placeholderText">
     <string>Mot de passe:</string>
    </property>
-      <property name="echoMode">
-          <enum>Password</enum>
-      </property>
   </widget>
   <widget class="QLabel" name="labelImage">
    <property name="geometry">
     <rect>
-     <x>140</x>
+     <x>160</x>
      <y>20</y>
      <width>96</width>
      <height>96</height>
@@ -80,7 +83,7 @@
     <string/>
    </property>
    <property name="pixmap">
-    <pixmap>:/Resources/User.png</pixmap>
+    <pixmap resource="../Resources/resources.qrc">:/Resources/User.png</pixmap>
    </property>
    <property name="scaledContents">
     <bool>true</bool>
@@ -89,7 +92,7 @@
   <widget class="QPushButton" name="pushButtonConfirmer">
    <property name="geometry">
     <rect>
-     <x>150</x>
+     <x>170</x>
      <y>230</y>
      <width>75</width>
      <height>23</height>
@@ -111,7 +114,7 @@
   </widget>
  </widget>
  <resources>
-  <include location="true"/>
+  <include location="../Resources/resources.qrc"/>
  </resources>
  <connections>
   <connection>

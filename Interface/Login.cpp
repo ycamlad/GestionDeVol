@@ -30,29 +30,35 @@ void Login::slotConfirmer() {
     QString pass=ui->lineEditPass->text();
 
     QSqlQuery query;
-    query.prepare("SELECT ID,Role,NAeroport FROM Utilisateurs WHERE Nom=:nom AND WHERE Pass=:pass AND Statut=0");
+    query.prepare("SELECT ID,Role,NAeroport FROM Utilisateurs WHERE Nom=:nom AND  Pass=:pass AND  Statut=0");
     query.bindValue(":nom",nom);
     query.bindValue(":pass",pass);
 
     if(query.exec()){
-        auto *f = new FenetrePrincipal(db,
-                                       query.value(0).toString(),
-                                       query.value(1).toString(),
-                                       query.value(2).toString());
-        f->setWindowIcon(icon);
-        f->setFixedHeight(775);
-        f->setFixedWidth(1018);
-        f->setAutoFillBackground(true);
+        if(query.next()) {
+            auto *f = new FenetrePrincipal(db,
+                                           query.value(0).toString(),
+                                           query.value(1).toString(),
+                                           query.value(2).toString());
+            f->setWindowIcon(icon);
+            f->setFixedHeight(775);
+            f->setFixedWidth(1018);
+            f->setAutoFillBackground(true);
 
-        QPalette palette;
-        palette.setBrush(f->backgroundRole(),QBrush(pixmap.scaled(f->size(),Qt::KeepAspectRatio,Qt::SmoothTransformation)));
-        f->setPalette(palette);
+            QPalette palette;
+            palette.setBrush(f->backgroundRole(),
+                             QBrush(pixmap.scaled(f->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation)));
+            f->setPalette(palette);
 
-        f->show();
+            f->show();
 
-        this->hide();
+            this->hide();
+        }else{
+            QMessageBox::critical(this,"Erreur",query.lastError().text());
+
+        }
     }else{
-        QMessageBox::warning(this,"Erreur","Mot de passe ou/et nom d'utilisateur invalide");
+        QMessageBox::warning(this,"Erreur","Mots de passe ou/et nom d'utilisateur invalide");
     }
 
 
