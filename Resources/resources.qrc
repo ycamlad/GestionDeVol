@@ -2,5 +2,6 @@
     <qresource prefix="/Resources">
         <file>iconmonstr-airport-10-240.png</file>
         <file>background.png</file>
+        <file>User.png</file>
     </qresource>
 </RCC>

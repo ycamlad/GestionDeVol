@@ -37,6 +37,9 @@ add_executable(Gestion_de_vol main.cpp
         DataBase/databasemanager.cpp
         DataBase/databasemanager.h
         DataBase/DataBaseException.h
+        Interface/Login.cpp
+        Interface/Login.h
+        Interface/Login.ui
 )
 
 if(CMAKE_BUILD_TYPE STREQUAL "Debug")

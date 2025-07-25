@@ -15,10 +15,11 @@
  * faire une methode statique qui va renvoyer le resultat d'une requete
  * ou encore instancier un objet db manager a la creation de la fenetre principal
  * **/
-FenetrePrincipal::FenetrePrincipal ():db(DatabaseManager::instance())
+//FenetrePrincipal::FenetrePrincipal ():m_db(DatabaseManager::instance())
+FenetrePrincipal::FenetrePrincipal(DatabaseManager &p_db, QWidget *parent):m_db(p_db)
 {
 
-    db.connect();
+    m_db.connect();
 
     std::string ar = "YUL";
     // int u = 1;
@@ -160,3 +161,5 @@ QIcon FenetrePrincipal::icon() {
 void FenetrePrincipal::slotMenuSupprimerVol() {
 
 }
+
+

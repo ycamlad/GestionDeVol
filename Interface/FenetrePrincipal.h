@@ -13,8 +13,11 @@ using namespace aerien;
 class FenetrePrincipal : public QMainWindow
 {
   Q_OBJECT
+
+    FenetrePrincipal();
+
 public:
-  FenetrePrincipal ();
+  FenetrePrincipal (DatabaseManager &p_db,QWidget *parent = nullptr);
     //DatabaseManager &db=DatabaseManager::instance();
 
 
@@ -28,7 +31,7 @@ private:
     //QStandardItemModel& modelDepart;
     //QStandardItemModel& modelArrivee;
     Ui::FenetrePrincipal widget;
-    DatabaseManager &db;
+    DatabaseManager &m_db;
     //Aeroport yul;
 
 
