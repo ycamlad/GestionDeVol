@@ -21,7 +21,7 @@ FenetrePrincipal::FenetrePrincipal(DatabaseManager &p_db,const QString& p_id,
                                    QWidget *parent):m_db(p_db),
                                    m_nom(p_id),m_role(p_role),m_aeroport(p_aero.toStdString())
 {
-
+    widget.setupUi (this);
 
     Aeroport aeroport(m_aeroport);
     QSqlQuery query;
@@ -113,16 +113,6 @@ FenetrePrincipal::FenetrePrincipal(DatabaseManager &p_db,const QString& p_id,
     }
 
 
-    auto model = std::make_unique<QSqlQueryModel>(this);
-    model->setQuery(query);
-
-
-    //Aeroport a (na);
-    //a.ajouterVol(Depart("AC1636","AIR CANADA","18:00","ORLONDO","17:15","C85"));
-    //a.ajouterVol(Arrivee("RJ0271","ROYAL JORDANIAN","07:12","AMMAN"," Atterri "));
-    widget.setupUi (this);
-
-    widget.tableViewDepart->setModel(model.get());
 //    for(int i =0;i<model.get()->rowCount();++i){
 //        bool vol = model->data(model->index(i,1)).toInt();
 //        if(!vol){
@@ -137,15 +127,15 @@ FenetrePrincipal::FenetrePrincipal(DatabaseManager &p_db,const QString& p_id,
     //widget.tableViewDepart->setModel(model.get());
 
     // For Depart table
-    //widget.tableWidgetDepart->setColumnCount(6);
-    //widget.tableWidgetDepart->setHorizontalHeaderLabels({"Numéro", "Compagnie", "Heure", "Ville", "Embarquement", "Porte"});
+    widget.tableWidgetDepart->setColumnCount(6);
+    widget.tableWidgetDepart->setHorizontalHeaderLabels({"Numéro", "Compagnie", "Heure", "Ville", "Embarquement", "Porte"});
 
 // For Arrivee table
-    //widget.tableWidgetArrivee->setColumnCount(5);
-    //widget.tableWidgetArrivee->setHorizontalHeaderLabels({"Numéro", "Compagnie", "Heure", "Ville", "Statut"});
+    widget.tableWidgetArrivee->setColumnCount(5);
+    widget.tableWidgetArrivee->setHorizontalHeaderLabels({"Numéro", "Compagnie", "Heure", "Ville", "Statut"});
 
 
-    //rafraichirAffichage();
+    rafraichirAffichage();
 }
 
 FenetrePrincipal::~FenetrePrincipal () { }
@@ -157,8 +147,8 @@ void FenetrePrincipal::slotMenuDepart(){
         try {
             Depart unDepart(interfaceDepart.reqNumero(), interfaceDepart.reqCompagnie(), interfaceDepart.reqHeure(),
                             interfaceDepart.reqVille(), interfaceDepart.reqEmbq(), interfaceDepart.reqPorte());
-            //yul.ajouterVol(unDepart);
-            //rafraichirAffichage();
+            m_aeroport.ajouterVol(unDepart);
+            rafraichirAffichage();
         }catch (VolDejaPresentException &e){
             QMessageBox::warning(this,"Erreur",e.what());
         }
@@ -173,69 +163,68 @@ void FenetrePrincipal::slotMenuArrivee(){
             //if (yul.reqAeroportFormate()==interfaceArrivee.reqNumero()) throw VolDejaPresentException(" Le vol "+yul.reqCode()+" est deja present!");
             Arrivee unArrivee(interfaceArrivee.reqNumero(), interfaceArrivee.reqCompagnie(),
                               interfaceArrivee.reqHeure(), interfaceArrivee.reqVille(), interfaceArrivee.reqStatus());
-           // yul.ajouterVol(unArrivee);
-            //rafraichirAffichage();
+            m_aeroport.ajouterVol(unArrivee);
+            rafraichirAffichage();
         }catch (VolDejaPresentException &e){
             QMessageBox::warning(this,"Erreur",e.what());
         }
     }
 }
 
-//void FenetrePrincipal::slotMenuSupprimerVol(){
-//    SupprimerVol interfaceSupprimer(yul);
-//    interfaceSupprimer.setWindowIcon(icon());
-//    if(interfaceSupprimer.exec()){
-//        try{
-//            //yul.supprimeVol (interfaceSupprimer.reqNumero());
-//            //rafraichirAffichage();
-//        }catch(VolAbsentException &e){
-//            QMessageBox::warning(this,"Erreur",e.what());
-//        }
-//    }
-//}
+void FenetrePrincipal::slotMenuSupprimerVol(){
+    SupprimerVol interfaceSupprimer(m_aeroport);
+    interfaceSupprimer.setWindowIcon(icon());
+    if(interfaceSupprimer.exec()){
+        try{
+            m_aeroport.supprimeVol (interfaceSupprimer.reqNumero());
+            rafraichirAffichage();
+        }catch(VolAbsentException &e){
+            QMessageBox::warning(this,"Erreur",e.what());
+        }
+    }
+}
 
-//void FenetrePrincipal::rafraichirAffichage() {
-//    widget.tableWidgetDepart->clearContents();
-//    widget.tableWidgetDepart->setRowCount(0);
-//    widget.tableWidgetArrivee->clearContents();
-//    widget.tableWidgetArrivee->setRowCount(0);
-//
-//    for (const auto &vol: yul.reqVols()) {
-//        if (vol->estDepart()) {
-//            int row = widget.tableWidgetDepart->rowCount();
-//            widget.tableWidgetDepart->insertRow(row);
-//
-//            widget.tableWidgetDepart->setItem(row, 0, new QTableWidgetItem(QString::fromStdString(vol->reqNumero())));
-//            widget.tableWidgetDepart->setItem(row, 1,
-//                                              new QTableWidgetItem(QString::fromStdString(vol->reqCompagnie())));
-//            widget.tableWidgetDepart->setItem(row, 2, new QTableWidgetItem(QString::fromStdString(vol->reqHeure())));
-//            widget.tableWidgetDepart->setItem(row, 3, new QTableWidgetItem(QString::fromStdString(vol->reqVille())));
-//            widget.tableWidgetDepart->setItem(row, 4, new QTableWidgetItem(
-//                    QString::fromStdString(dynamic_cast<Depart *>(vol.get())->reqHeureEmbarquement())));
-//            widget.tableWidgetDepart->setItem(row, 5, new QTableWidgetItem(
-//                    QString::fromStdString(dynamic_cast<Depart *>(vol.get())->reqPorteEmbarquement())));
-//        } else {
-//            int row = widget.tableWidgetArrivee->rowCount();
-//            widget.tableWidgetArrivee->insertRow(row);
-//
-//            widget.tableWidgetArrivee->setItem(row, 0, new QTableWidgetItem(QString::fromStdString(vol->reqNumero())));
-//            widget.tableWidgetArrivee->setItem(row, 1,
-//                                               new QTableWidgetItem(QString::fromStdString(vol->reqCompagnie())));
-//            widget.tableWidgetArrivee->setItem(row, 2, new QTableWidgetItem(QString::fromStdString(vol->reqHeure())));
-//            widget.tableWidgetArrivee->setItem(row, 3, new QTableWidgetItem(QString::fromStdString(vol->reqVille())));
-//            widget.tableWidgetArrivee->setItem(row, 4, new QTableWidgetItem(
-//                    QString::fromStdString(dynamic_cast<Arrivee *>(vol.get())->reqStatut())));
-//        }
-//
-//    }
-//}
+void FenetrePrincipal::rafraichirAffichage() {
+
+        widget.tableWidgetDepart->clearContents();
+        widget.tableWidgetDepart->setRowCount(0);
+        widget.tableWidgetArrivee->clearContents();
+        widget.tableWidgetArrivee->setRowCount(0);
+
+        for (const auto &vol: m_aeroport.reqVols()) {
+            if (vol->estDepart()) {
+                int row = widget.tableWidgetDepart->rowCount();
+                widget.tableWidgetDepart->insertRow(row);
+
+                widget.tableWidgetDepart->setItem(row, 0, new QTableWidgetItem(QString::fromStdString(vol->reqNumero())));
+                widget.tableWidgetDepart->setItem(row, 1,
+                                                  new QTableWidgetItem(QString::fromStdString(vol->reqCompagnie())));
+                widget.tableWidgetDepart->setItem(row, 2, new QTableWidgetItem(QString::fromStdString(vol->reqHeure())));
+                widget.tableWidgetDepart->setItem(row, 3, new QTableWidgetItem(QString::fromStdString(vol->reqVille())));
+                widget.tableWidgetDepart->setItem(row, 4, new QTableWidgetItem(
+                        QString::fromStdString(dynamic_cast<Depart *>(vol.get())->reqHeureEmbarquement())));
+                widget.tableWidgetDepart->setItem(row, 5, new QTableWidgetItem(
+                        QString::fromStdString(dynamic_cast<Depart *>(vol.get())->reqPorteEmbarquement())));
+            } else {
+                int row = widget.tableWidgetArrivee->rowCount();
+                widget.tableWidgetArrivee->insertRow(row);
+
+                widget.tableWidgetArrivee->setItem(row, 0, new QTableWidgetItem(QString::fromStdString(vol->reqNumero())));
+                widget.tableWidgetArrivee->setItem(row, 1,
+                                                   new QTableWidgetItem(QString::fromStdString(vol->reqCompagnie())));
+                widget.tableWidgetArrivee->setItem(row, 2, new QTableWidgetItem(QString::fromStdString(vol->reqHeure())));
+                widget.tableWidgetArrivee->setItem(row, 3, new QTableWidgetItem(QString::fromStdString(vol->reqVille())));
+                widget.tableWidgetArrivee->setItem(row, 4, new QTableWidgetItem(
+                        QString::fromStdString(dynamic_cast<Arrivee *>(vol.get())->reqStatut())));
+            }
+
+        }
+
+}
 
 QIcon FenetrePrincipal::icon() {
     return QIcon(":/Resources/iconmonstr-airport-10-240.png");
 }
 
-void FenetrePrincipal::slotMenuSupprimerVol() {
-
-}
 
 

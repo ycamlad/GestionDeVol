@@ -23,7 +23,7 @@
    <bool>false</bool>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QTableView" name="tableViewDepart">
+   <widget class="QTableWidget" name="tableWidgetDepart">
     <property name="geometry">
      <rect>
       <x>50</x>
@@ -39,7 +39,7 @@
      <string notr="true">font: 75 8pt &quot;MS Shell Dlg 2&quot;;</string>
     </property>
    </widget>
-   <widget class="QTableView" name="tableViewArrivee">
+   <widget class="QTableWidget" name="tableWidgetArrivee">
     <property name="geometry">
      <rect>
       <x>50</x>
@@ -93,8 +93,8 @@
    </widget>
    <zorder>label</zorder>
    <zorder>label_2</zorder>
-   <zorder>tableViewDepart</zorder>
-   <zorder>tableViewArrivee</zorder>
+   <zorder>tableWidgetDepart</zorder>
+   <zorder>tableWidgetArrivee</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">

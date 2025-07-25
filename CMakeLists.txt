@@ -50,11 +50,11 @@ if(CMAKE_BUILD_TYPE STREQUAL "Debug")
     )
 endif()
 
-add_custom_command(TARGET Gestion_de_vol POST_BUILD
-        COMMAND ${CMAKE_COMMAND} -E copy_if_different
-        "C:/Users/chris/OneDrive/Documents/Voldb.db"
-        "$<TARGET_FILE_DIR:Gestion_de_vol>/Voldb.db"
-)
+#add_custom_command(TARGET Gestion_de_vol POST_BUILD
+#        COMMAND ${CMAKE_COMMAND} -E copy_if_different
+#        "C:/Users/chris/OneDrive/Documents/Voldb.db"
+#        "$<TARGET_FILE_DIR:Gestion_de_vol>/Voldb.db"
+#)
 
 
 target_link_libraries(Gestion_de_vol

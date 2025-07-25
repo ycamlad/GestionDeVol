@@ -36,9 +36,10 @@ private:
     QString m_role;
     QString m_aero;
     Aeroport m_aeroport;
+    size_t m_size=m_aeroport.reqVols().size();
 
 
-  //void rafraichirAffichage();
+  void rafraichirAffichage();
   QIcon icon();
 };
 
