@@ -16,18 +16,99 @@
  * ou encore instancier un objet db manager a la creation de la fenetre principal
  * **/
 //FenetrePrincipal::FenetrePrincipal ():m_db(DatabaseManager::instance())
-FenetrePrincipal::FenetrePrincipal(DatabaseManager &p_db, QWidget *parent):m_db(p_db)
+FenetrePrincipal::FenetrePrincipal(DatabaseManager &p_db,const QString& p_id,
+                                   const QString& p_role,const QString& p_aero,
+                                   QWidget *parent):m_db(p_db),
+                                   m_nom(p_id),m_role(p_role),m_aeroport(p_aero.toStdString())
 {
-
     m_db.connect();
 
-    std::string ar = "YUL";
-    // int u = 1;
+    std::string chaineAeroport;
     QSqlQuery query;
-//    query.prepare("SELECT NAeroport FROM Utilisateurs WHERE NAeroport =:na");
-//    query.bindValue(":na",QString::fromStdString(ar));
-//    //query.bindValue(":id",u);
-//    query.exec();
+
+    if(m_role=="Admin"){
+        query.prepare(
+                "SELECT "
+                " NAeroport,"
+                " TypeVol,"
+                " NumVol,"
+                " Compagnie,"
+                " Heure,"
+                " Ville,"
+                " HEmbq,"
+                " PNum,"
+                " Statut"
+                " FROM Vols");
+
+        while (query.exec()) {
+            chaineAeroport = query.value(0).toString().toStdString();
+            std::string statut;
+            if (query.value(8).toString() == "1") statut = " Atterri ";
+            else if (query.value(8).toString() == "2")
+                statut = " Retardé "; //" Atterri "||p_statut==" Retardé "||p_statut=="À l’heure"
+            else statut = "À l’heure";
+
+            Aeroport aeroport(chaineAeroport);
+            std::string type;
+            if (query.value(1).toBool()) {
+                aeroport.ajouterVol(Arrivee(query.value(2).toString().toStdString(),
+                                            query.value(3).toString().toStdString(),
+                                            query.value(4).toString().toStdString(),
+                                            query.value(5).toString().toStdString(),
+                                            statut));
+            } else {
+                aeroport.ajouterVol(Depart(query.value(2).toString().toStdString(),
+                                           query.value(3).toString().toStdString(),
+                                           query.value(4).toString().toStdString(),
+                                           query.value(5).toString().toStdString(),
+                                           query.value(6).toString().toStdString(),
+                                           query.value(7).toString().toStdString()));
+            }
+
+        }
+    }else {
+
+        query.prepare(
+                "SELECT "
+                " NAeroport,"
+                " TypeVol,"
+                " NumVol,"
+                " Compagnie,"
+                " Heure,"
+                " Ville,"
+                " HEmbq,"
+                " PNum,"
+                " Statut"
+                " FROM Vols WHERE UID=:id ");
+        query.bindValue(":id", p_id);
+
+        while (query.exec()) {
+            chaineAeroport = query.value(0).toString().toStdString();
+            std::string statut;
+            if (query.value(8).toString() == "1") statut = " Atterri ";
+            else if (query.value(8).toString() == "2")
+                statut = " Retardé "; //" Atterri "||p_statut==" Retardé "||p_statut=="À l’heure"
+            else statut = "À l’heure";
+
+            Aeroport aeroport(chaineAeroport);
+            std::string type;
+            if (query.value(1).toBool()) {
+                aeroport.ajouterVol(Arrivee(query.value(2).toString().toStdString(),
+                                            query.value(3).toString().toStdString(),
+                                            query.value(4).toString().toStdString(),
+                                            query.value(5).toString().toStdString(),
+                                            statut));
+            } else {
+                aeroport.ajouterVol(Depart(query.value(2).toString().toStdString(),
+                                           query.value(3).toString().toStdString(),
+                                           query.value(4).toString().toStdString(),
+                                           query.value(5).toString().toStdString(),
+                                           query.value(6).toString().toStdString(),
+                                           query.value(7).toString().toStdString()));
+            }
+
+        }
+    }
 //    std::string na =(query.value(0).toString()).toStdString();
 
 

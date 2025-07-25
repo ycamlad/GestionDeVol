@@ -17,7 +17,7 @@ class FenetrePrincipal : public QMainWindow
     FenetrePrincipal();
 
 public:
-  FenetrePrincipal (DatabaseManager &p_db,QWidget *parent = nullptr);
+  FenetrePrincipal (DatabaseManager &p_db,const QString& p_id,const QString& p_role ,const QString& p_aero,QWidget *parent = nullptr);
     //DatabaseManager &db=DatabaseManager::instance();
 
 
@@ -32,7 +32,10 @@ private:
     //QStandardItemModel& modelArrivee;
     Ui::FenetrePrincipal widget;
     DatabaseManager &m_db;
-    //Aeroport yul;
+    QString m_nom;
+    QString m_role;
+    QString m_aero;
+    Aeroport m_aeroport;
 
 
   //void rafraichirAffichage();
