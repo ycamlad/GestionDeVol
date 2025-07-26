@@ -12,7 +12,9 @@
 #include <QSqlError>
 #include <QVariant>
 #include <QDebug>
+#include "Vol.h"
 
+using namespace aerien;
 class DatabaseManager : public QObject
 {
 Q_OBJECT

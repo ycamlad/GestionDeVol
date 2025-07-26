@@ -83,6 +83,7 @@ bool DatabaseManager::inserertUtilisateur(
 
     return true;
 }
+
 /**
  * \brief Requete pour cree une liste des utilisateurs
  * \return Une liste des utilisateurs dans la base de donnee
@@ -103,60 +104,5 @@ bool DatabaseManager::inserertUtilisateur(
 //    return users;
 //}
 
-//QList<QPair<int, QVector<QVector<QString>>>> DatabaseManager::reqVols(const QString& p_role, int p_uid)
-//{
-//    PRECONDITION(!p_role.isEmpty())
-//    int total =0;
-//    QList<QPair<int, QVector<QVector<QString>>>> Vols;
-//
-//
-//    QVector<QVector<QString>> depart;
-//    QVector<QVector<QString>> arrivee;
-//
-//    QSqlQuery query;
-//    QSqlQueryModel *m = new QSqlQueryModel;
-//
-//    // Role-based filtering
-//    if (p_role == "Admin") {
-//        query.prepare("SELECT NumVol, TypeVol, Compagnie, Heure, Ville, HEmbq, PNum, Statut FROM Vols");
-//        m->setQuery("SELECT NumVol, TypeVol, Compagnie, Heure, Ville, HEmbq, PNum, Statut FROM Vols");
-//
-//
-//    } else {
-//        query.prepare("SELECT NumVol, TypeVol, Compagnie, Heure, Ville, HEmbq, PNum, Statut "
-//                      "FROM Vols WHERE UID = :uid");
-//        query.bindValue(":uid", p_uid);
-//    }
-//
-//    if (!query.exec()) throw DatabaseException("Requete Invalide:",query.lastError().text());
-//
-//    m->fetchMore();
-//    int t = m->rowCount();
-//
-//    while (query.next()) {
-//        int typeVol = query.value(1).toInt();
-//
-//        QVector<QString> row;
-//
-//        for (int i = 0; i < query.record().count(); ++i) {
-//            QVariant val = query.value(i);
-//            if (!(val.isNull() || val.toString().trimmed().isEmpty())) row.append(val.toString());
-//        }
-//
-//        if (row.isEmpty()) continue;
-//
-//        if (typeVol == 0)
-//            depart.append(row);
-//        else if (typeVol == 1)
-//            arrivee.append(row);
-//    }
-//
-//    if (!depart.isEmpty())
-//        Vols.append(qMakePair(0, depart));
-//    if (!arrivee.isEmpty())
-//        Vols.append(qMakePair(1, arrivee));
-//
-//    delete m;
-//    return Vols;
-//}
+
 

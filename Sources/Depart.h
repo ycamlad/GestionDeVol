@@ -25,6 +25,8 @@ namespace aerien {
 
         ~Depart() override =default;
 
+        Depart&operator=(const Depart& p_depart);
+
         const std::string &reqPorteEmbarquement() const;
 
         void asgHeureEmbarquement(const std::string &mHeureEmbarquement);

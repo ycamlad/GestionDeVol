@@ -91,5 +91,15 @@ void Arrivee::verifierInvariant() const {
     INVARIANT(!m_statut.empty()&&(m_statut==" Atterri "||m_statut==" Retardé "||m_statut=="À l’heure"))
 }
 
+Arrivee &Arrivee::operator=(const Arrivee &p_arrivee) {
+    if(*this==p_arrivee) return *this;
+
+    Vol::operator=(p_arrivee);
+    this->m_statut=p_arrivee.m_statut;
+
+    POSTCONDITION(this->operator==(p_arrivee));
+    return *this;
+}
+
 
 

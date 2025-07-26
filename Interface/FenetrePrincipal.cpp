@@ -10,6 +10,7 @@
 #include "QSvgWidget"
 #include "QSqlQueryModel"
 #include "databasemanager.h"
+#include "DataBaseException.h"
 
 /**
  * faire une methode statique qui va renvoyer le resultat d'une requete
@@ -148,10 +149,28 @@ void FenetrePrincipal::slotMenuDepart(){
         try {
             Depart unDepart(interfaceDepart.reqNumero(), interfaceDepart.reqCompagnie(), interfaceDepart.reqHeure(),
                             interfaceDepart.reqVille(), interfaceDepart.reqEmbq(), interfaceDepart.reqPorte());
+            QSqlQuery query;
+            query.prepare("INSERT INTO Vols (NAeroport,UID,NumVol,TypeVol,Compagnie,Heure,Ville,HEmbq,PNum) VALUES(:na,:id,:num,:type,:comp,:heure,:ville,:embq,:porte)");
+            query.bindValue(":na",QString::fromStdString(m_aeroport.reqCode()));
+            query.bindValue(":id",m_id);
+            query.bindValue(":num",QString::fromStdString(interfaceDepart.reqNumero()));
+            query.bindValue(":type",0);
+            query.bindValue(":comp",QString::fromStdString(interfaceDepart.reqCompagnie()));
+            query.bindValue(":heure",QString::fromStdString(interfaceDepart.reqHeure()));
+            query.bindValue(":ville",QString::fromStdString(interfaceDepart.reqVille()));
+            query.bindValue(":embq",QString::fromStdString(interfaceDepart.reqEmbq()));
+            query.bindValue(":porte",QString::fromStdString(interfaceDepart.reqPorte()));
+
+            if (!query.exec()) throw DatabaseException("Insertion invalide:",query.lastError().text());
+
             m_aeroport.ajouterVol(unDepart);
             rafraichirAffichage();
+
         }catch (VolDejaPresentException &e){
             QMessageBox::warning(this,"Erreur",e.what());
+        } catch (DatabaseException &e) {
+            QMessageBox::warning(this,"Erreur",e.what());
+
         }
     }
 }
@@ -159,16 +178,39 @@ void FenetrePrincipal::slotMenuDepart(){
 void FenetrePrincipal::slotMenuArrivee(){
     AjouterArrivee interfaceArrivee;
     interfaceArrivee.setWindowIcon(icon());
+    try {
+        //if (yul.reqAeroportFormate()==interfaceArrivee.reqNumero()) throw VolDejaPresentException(" Le vol "+yul.reqCode()+" est deja present!");
+        Arrivee unArrivee(interfaceArrivee.reqNumero(), interfaceArrivee.reqCompagnie(),
+                          interfaceArrivee.reqHeure(), interfaceArrivee.reqVille(), interfaceArrivee.reqStatus());
+        QSqlQuery query;
+        int statut ;
+
+        if(interfaceArrivee.reqStatus()==" Atterri ") statut=1;
+        if(interfaceArrivee.reqStatus()==" Retardé ") statut=2;
+        if(interfaceArrivee.reqStatus()=="À l’heure") statut=3;
+
+        query.prepare("INSERT INTO Vols (NAeroport,UID,NumVol,TypeVol,Compagnie,Heure,Ville,Statut) VALUES(:na,:id,:num,:type,:comp,:heure,:ville,:Statut)");
+        query.bindValue(":na",QString::fromStdString(m_aeroport.reqCode()));
+        query.bindValue(":id",m_id);
+        query.bindValue(":num",QString::fromStdString(interfaceArrivee.reqNumero()));
+        query.bindValue(":type",1);
+        query.bindValue(":comp",QString::fromStdString(interfaceArrivee.reqCompagnie()));
+        query.bindValue(":heure",QString::fromStdString(interfaceArrivee.reqHeure()));
+        query.bindValue(":ville",QString::fromStdString(interfaceArrivee.reqVille()));
+        query.bindValue(":Statut",statut);
+
+        if (!query.exec()) throw DatabaseException("Insertion invalide:",query.lastError().text());
+
+        m_aeroport.ajouterVol(unArrivee);
+        rafraichirAffichage();
+
+    }catch (VolDejaPresentException &e){
+        QMessageBox::warning(this,"Erreur",e.what());
+    }catch (DatabaseException &e) {
+        QMessageBox::warning(this,"Erreur",e.what());
+
+    }
     if(interfaceArrivee.exec()){
-        try {
-            //if (yul.reqAeroportFormate()==interfaceArrivee.reqNumero()) throw VolDejaPresentException(" Le vol "+yul.reqCode()+" est deja present!");
-            Arrivee unArrivee(interfaceArrivee.reqNumero(), interfaceArrivee.reqCompagnie(),
-                              interfaceArrivee.reqHeure(), interfaceArrivee.reqVille(), interfaceArrivee.reqStatus());
-            m_aeroport.ajouterVol(unArrivee);
-            rafraichirAffichage();
-        }catch (VolDejaPresentException &e){
-            QMessageBox::warning(this,"Erreur",e.what());
-        }
     }
 }
 
@@ -177,16 +219,27 @@ void FenetrePrincipal::slotMenuSupprimerVol(){
     interfaceSupprimer.setWindowIcon(icon());
     if(interfaceSupprimer.exec()){
         try{
+            QSqlQuery query;
+
+            query.prepare("DELETE FROM Vols WHERE NumVol =:num");
+            query.bindValue(":num",QString::fromStdString(interfaceSupprimer.reqNumero()));
+
+            if (!query.exec()) throw DatabaseException("Suppression invalide:",query.lastError().text());
+
             m_aeroport.supprimeVol (interfaceSupprimer.reqNumero());
             rafraichirAffichage();
+
         }catch(VolAbsentException &e){
+            QMessageBox::warning(this,"Erreur",e.what());
+        }catch (DatabaseException &e) {
             QMessageBox::warning(this,"Erreur",e.what());
         }
     }
 }
 
-void FenetrePrincipal::rafraichirAffichage() {
 
+
+void FenetrePrincipal::rafraichirAffichage() {
         widget.tableWidgetDepart->clearContents();
         widget.tableWidgetDepart->setRowCount(0);
         widget.tableWidgetArrivee->clearContents();
@@ -218,9 +271,7 @@ void FenetrePrincipal::rafraichirAffichage() {
                 widget.tableWidgetArrivee->setItem(row, 4, new QTableWidgetItem(
                         QString::fromStdString(dynamic_cast<Arrivee *>(vol.get())->reqStatut())));
             }
-
         }
-
 }
 
 QIcon FenetrePrincipal::icon() {

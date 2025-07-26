@@ -72,6 +72,37 @@ void Vol::asgHeureVol(const std::string& p_heure) {
     POSTCONDITION(m_heure==p_heure)
 }
 
+void Vol::asgNumero(const std::string &p_numero){
+    PRECONDITION(estNumeroVolValide(p_numero))
+    m_numero=p_numero;
+    POSTCONDITION(m_numero==p_numero)
+}
+void Vol::asgCompagnie(const std::string &p_compagnie){
+    PRECONDITION(estNomValide(p_compagnie))
+    m_compagnie=p_compagnie;
+    POSTCONDITION(m_compagnie==p_compagnie)
+}
+void Vol::asgVille(const std::string &p_ville){
+    PRECONDITION(estNomValide(p_ville))
+    m_ville=p_ville;
+    POSTCONDITION(m_ville==p_ville)
+}
+
+Vol& Vol::operator=(const Vol& p_vol){
+    if(*this==p_vol) return *this;
+
+    if(m_numero!=p_vol.m_numero) m_numero=p_vol.m_numero;
+    if(m_compagnie!=p_vol.m_compagnie) m_compagnie=p_vol.m_compagnie;
+    if(m_heure!=p_vol.m_heure) m_heure=p_vol.m_heure;
+    if(m_ville!=p_vol.m_ville) m_ville=p_vol.m_ville;
+
+    POSTCONDITION(m_numero==p_vol.m_numero)
+    POSTCONDITION(m_compagnie==p_vol.m_compagnie)
+    POSTCONDITION(m_heure==p_vol.m_heure)
+    POSTCONDITION(m_ville==p_vol.m_ville)
+    return *this;
+}
+
 /**
  * \brief Surcharge de l’opérateur d’égalité
  * \param[in] p_vol L’objet Vol avec lequel comparer
@@ -86,7 +117,6 @@ bool Vol::operator==(const Vol& p_vol) const {
  * \return Une chaîne contenant les champs du vol alignés en tableau
  */
 std::string Vol::reqVolFormate() const {
-
     std::string numero ="|"+m_numero+"|";
     std::string compagnie =centrer(m_compagnie,19);
     std::string heure ="|"+m_heure+"|";

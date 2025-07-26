@@ -40,6 +40,9 @@ add_executable(Gestion_de_vol main.cpp
         Interface/Login.cpp
         Interface/Login.h
         Interface/Login.ui
+        Interface/Modifiervol.cpp
+        Interface/Modifiervol.h
+        Interface/Modifiervol.ui
 )
 
 if(CMAKE_BUILD_TYPE STREQUAL "Debug")

@@ -25,6 +25,8 @@ namespace aerien {
 
         virtual ~Arrivee() = default;
 
+        Arrivee&operator=(const Arrivee& p_arrivee);
+
         const std::string &reqStatut() const;
 
         void asgStatut(const std::string &p_statut);
