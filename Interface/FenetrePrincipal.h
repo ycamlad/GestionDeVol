@@ -32,7 +32,7 @@ private:
     //QStandardItemModel& modelArrivee;
     Ui::FenetrePrincipal widget;
     DatabaseManager &m_db;
-    QString m_nom;
+    QString m_id;
     QString m_role;
     QString m_aero;
     Aeroport m_aeroport;

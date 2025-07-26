@@ -19,7 +19,7 @@
 FenetrePrincipal::FenetrePrincipal(DatabaseManager &p_db,const QString& p_id,
                                    const QString& p_role,const QString& p_aero,
                                    QWidget *parent):m_db(p_db),
-                                   m_nom(p_id),m_role(p_role),m_aeroport(p_aero.toStdString())
+                                   m_id(p_id),m_role(p_role),m_aeroport(p_aero.toStdString())
 {
     widget.setupUi (this);
 
