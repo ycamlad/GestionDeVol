@@ -23,7 +23,7 @@ FenetrePrincipal::FenetrePrincipal(DatabaseManager &p_db,const QString& p_id,
 {
     widget.setupUi (this);
 
-    Aeroport aeroport(m_aeroport);
+    Aeroport aeroport(p_aero.toStdString());
     QSqlQuery query;
 
     if(m_role=="Admin") {
@@ -46,23 +46,23 @@ FenetrePrincipal::FenetrePrincipal(DatabaseManager &p_db,const QString& p_id,
         }
             while (query.next()) {
                 std::string statut;
-                if (query.value(8).toString() == "1") statut = " Atterri ";
-                else if (query.value(8).toString() == "2")
-                    statut = " Retardé "; //" Atterri "||p_statut==" Retardé "||p_statut=="À l’heure"
+                if (query.value("Statut").toString() == "1") statut = " Atterri ";
+                else if (query.value("Statut").toString() == "2")
+                    statut = " Retardé ";
                 else statut = "À l’heure";
-                if (query.value(1).toBool()) {
-                    aeroport.ajouterVol(Arrivee(query.value(2).toString().toStdString(),
-                                                query.value(3).toString().toStdString(),
-                                                query.value(4).toString().toStdString(),
-                                                query.value(5).toString().toStdString(),
+                if (query.value("TypeVol").toBool()) {
+                    aeroport.ajouterVol(Arrivee(query.value("NumVol").toString().toStdString(),
+                                                query.value("Compagnie").toString().toStdString(),
+                                                query.value("Heure").toString().toStdString(),
+                                                query.value("Ville").toString().toStdString(),
                                                 statut));
                 } else {
-                    aeroport.ajouterVol(Depart(query.value(2).toString().toStdString(),
-                                               query.value(3).toString().toStdString(),
-                                               query.value(4).toString().toStdString(),
-                                               query.value(5).toString().toStdString(),
-                                               query.value(6).toString().toStdString(),
-                                               query.value(7).toString().toStdString()));
+                    aeroport.ajouterVol(Depart(query.value("NumVol").toString().toStdString(),
+                                               query.value("Compagnie").toString().toStdString(),
+                                               query.value("Heure").toString().toStdString(),
+                                               query.value("Ville").toString().toStdString(),
+                                               query.value("HEmbq").toString().toStdString(),
+                                               query.value("PNum").toString().toStdString()));
                     }
 
                 }
@@ -88,29 +88,31 @@ FenetrePrincipal::FenetrePrincipal(DatabaseManager &p_db,const QString& p_id,
         }
         while (query.next()) {
             std::string statut;
-            if (query.value(8).toString() == "1")
+            if (query.value("Statut").toString() == "1")
                 statut = " Atterri ";
-            else if (query.value(8).toString() == "2")
+            else if (query.value("Statut").toString() == "2")
                 statut = " Retardé ";
             else
                 statut = "À l’heure";
-            if (query.value(1).toBool()) {
-                aeroport.ajouterVol(Arrivee(query.value(2).toString().toStdString(),
-                                            query.value(3).toString().toStdString(),
-                                            query.value(4).toString().toStdString(),
-                                            query.value(5).toString().toStdString(),
+            if (query.value("TypeVol").toBool()) {
+                aeroport.ajouterVol(Arrivee(query.value("NumVol").toString().toStdString(),
+                                            query.value("Compagnie").toString().toStdString(),
+                                            query.value("Heure").toString().toStdString(),
+                                            query.value("Ville").toString().toStdString(),
                                             statut));
             } else {
-                aeroport.ajouterVol(Depart(query.value(2).toString().toStdString(),
-                                           query.value(3).toString().toStdString(),
-                                           query.value(4).toString().toStdString(),
-                                           query.value(5).toString().toStdString(),
-                                           query.value(6).toString().toStdString(),
-                                           query.value(7).toString().toStdString()));
+                aeroport.ajouterVol(Depart(query.value("NumVol").toString().toStdString(),
+                                           query.value("Compagnie").toString().toStdString(),
+                                           query.value("Heure").toString().toStdString(),
+                                           query.value("Ville").toString().toStdString(),
+                                           query.value("HEmbq").toString().toStdString(),
+                                           query.value("PNum").toString().toStdString()));
             }
 
         }
     }
+
+    m_aeroport=aeroport;
 
 
 //    for(int i =0;i<model.get()->rowCount();++i){
@@ -126,14 +128,13 @@ FenetrePrincipal::FenetrePrincipal(DatabaseManager &p_db,const QString& p_id,
 //    }
     //widget.tableViewDepart->setModel(model.get());
 
-    // For Depart table
+    //Depart table
     widget.tableWidgetDepart->setColumnCount(6);
     widget.tableWidgetDepart->setHorizontalHeaderLabels({"Numéro", "Compagnie", "Heure", "Ville", "Embarquement", "Porte"});
 
-// For Arrivee table
+    //Arrivee table
     widget.tableWidgetArrivee->setColumnCount(5);
     widget.tableWidgetArrivee->setHorizontalHeaderLabels({"Numéro", "Compagnie", "Heure", "Ville", "Statut"});
-
 
     rafraichirAffichage();
 }

@@ -42,31 +42,48 @@ void Login::slotConfirmer() {
         return;
     }
         if(query.next()) {
-            id =query.value(0).toString();
-            role =query.value(1).toString();
-            naero=query.value(2).toString();
+
+            auto *f = new FenetrePrincipal(db,query.value("ID").toString(),
+                                           query.value("Role").toString(),
+                                           query.value("NAeroport").toString());
+
+
+
+            f->setWindowIcon(icon);
+            f->setFixedHeight(775);
+            f->setFixedWidth(1018);
+            f->setAutoFillBackground(true);
+
+            QPalette palette;
+            palette.setBrush(f->backgroundRole(),
+                             QBrush(pixmap.scaled(f->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation)));
+            f->setPalette(palette);
+
+            f->show();
+
+            this->hide();
         }else{
             QMessageBox::critical(this,"Erreur",query.lastError().text());
 
         }
-
-    auto *f = new FenetrePrincipal(db,id,role,naero);
-
-
-
-    f->setWindowIcon(icon);
-    f->setFixedHeight(775);
-    f->setFixedWidth(1018);
-    f->setAutoFillBackground(true);
-
-    QPalette palette;
-    palette.setBrush(f->backgroundRole(),
-                     QBrush(pixmap.scaled(f->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation)));
-    f->setPalette(palette);
-
-    f->show();
-
-    this->hide();
+//
+//    auto *f = new FenetrePrincipal(db,id,role,naero);
+//
+//
+//
+//    f->setWindowIcon(icon);
+//    f->setFixedHeight(775);
+//    f->setFixedWidth(1018);
+//    f->setAutoFillBackground(true);
+//
+//    QPalette palette;
+//    palette.setBrush(f->backgroundRole(),
+//                     QBrush(pixmap.scaled(f->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation)));
+//    f->setPalette(palette);
+//
+//    f->show();
+//
+//    this->hide();
 
 
 }

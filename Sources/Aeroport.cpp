@@ -57,7 +57,7 @@ Aeroport& Aeroport::operator=(const Aeroport &p_aeroport) {
         m_vVols.push_back(std::unique_ptr<Vol>(vol->clone()));
     }
 
-    POSTCONDITION(m_vVols==p_aeroport.m_vVols)
+    POSTCONDITION(m_vVols.size()==p_aeroport.m_vVols.size())
     return *this;
 }
 
