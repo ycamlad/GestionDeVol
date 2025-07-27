@@ -1,6 +1,7 @@
 #include "FenetrePrincipal.h"
 #include "AjouterDepart.h"
 #include "AjouterArrivee.h"
+#include "Modifiervol.h"
 #include "SupprimerVol.h"
 #include "VolDejaPresentException.h"
 #include "VolAbsentException.h"
@@ -214,6 +215,53 @@ void FenetrePrincipal::slotMenuArrivee(){
     }
 }
 
+void FenetrePrincipal::slotMenuModifierVol(){
+    ModifierVol interfaceModifier(m_aeroport);
+    interfaceModifier.setWindowIcon(icon());
+
+    if(interfaceModifier.exec()){
+        QSqlQuery query;
+        int statut ;
+        int type;
+
+        if(interfaceModifier.reqStatut()==" Atterri ") statut=1;
+        if(interfaceModifier.reqStatut()==" Retardé ") statut=2;
+        if(interfaceModifier.reqStatut()=="À l’heure") statut=3;
+        for(auto &e:m_aeroport.reqVols()){
+            if(interfaceModifier.reqNumero()==m_aeroport.reqCode()){
+                if(e->estDepart()){
+                    type=0;
+                    query.prepare("UPDATE Vols SET TypeVol =:type, SET Compagnie=:comp, SET Heure=:heure ,SET Ville=:ville, SET HEmbq=:embq, SET PNum=:porte WHERE NumVol=:num ");
+                    query.bindValue(":type",type);
+                    query.bindValue(":Compagnie",QString::fromStdString(interfaceModifier.reqCompagnie()));
+                    query.bindValue(":heure",QString::fromStdString(interfaceModifier.reqHeure()));
+                    query.bindValue(":ville",QString::fromStdString(interfaceModifier.reqVille()));
+                    query.bindValue(":embq",QString::fromStdString(interfaceModifier.reqEmbq()));
+                    query.bindValue(":porte",QString::fromStdString(interfaceModifier.reqPorte()));
+                    if (!query.exec()) throw DatabaseException("Suppression invalide:",query.lastError().text());
+
+                }else{
+                    type=1;
+                    query.prepare("UPDATE Vols SET TypeVol =:type, SET Compagnie=:comp, SET Heure=:heure ,SET Ville=:ville, SET Statut=:statut WHERE NumVol=:num ");
+                    query.bindValue(":type",type);
+                    query.bindValue(":Compagnie",QString::fromStdString(interfaceModifier.reqCompagnie()));
+                    query.bindValue(":heure",QString::fromStdString(interfaceModifier.reqHeure()));
+                    query.bindValue(":ville",QString::fromStdString(interfaceModifier.reqVille()));
+                    query.bindValue(":statut",QString::fromStdString(interfaceModifier.reqStatut()));
+                    if (!query.exec()) throw DatabaseException("Suppression invalide:",query.lastError().text());
+                }
+            }
+        }
+
+    }
+}
+
+/**
+ * UPDATE Customers
+SET ContactName = 'Alfred Schmidt', City= 'Frankfurt'
+WHERE CustomerID = 1;
+ * **/
+
 void FenetrePrincipal::slotMenuSupprimerVol(){
     SupprimerVol interfaceSupprimer(m_aeroport);
     interfaceSupprimer.setWindowIcon(icon());
@@ -273,6 +321,8 @@ void FenetrePrincipal::rafraichirAffichage() {
             }
         }
 }
+
+
 
 QIcon FenetrePrincipal::icon() {
     return QIcon(":/Resources/iconmonstr-airport-10-240.png");

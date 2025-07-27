@@ -6,22 +6,37 @@
 #define GESTION_DE_VOL_MODIFIERVOL_H
 
 #include <QWidget>
-
+#include "QDialog"
+#include <Aeroport.h>
+#include <ui_ModifierVol.h>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class ModifierVol; }
 QT_END_NAMESPACE
-
-class ModifierVol : public QWidget {
+using namespace aerien;
+class ModifierVol : public QDialog {
 Q_OBJECT
 
 public:
-    explicit ModifierVol(QWidget *parent = nullptr);
+    explicit ModifierVol(const Aeroport&p_aero,QWidget *parent = nullptr);
 
     ~ModifierVol() override;
+    std::string reqNumero() const;
+    std::string reqCompagnie() const;
+    std::string reqHeure()const;
+    std::string reqVille() const;
+    std::string reqEmbq()const;
+    std::string reqPorte()const;
+    std::string reqStatut()const;
+private slots:
+    void slotModifierVol();
 
 private:
     Ui::ModifierVol *ui;
+    Aeroport m_aero;
+    void  refresh();
+    void departMode(bool estDpart);
+
 };
 
 

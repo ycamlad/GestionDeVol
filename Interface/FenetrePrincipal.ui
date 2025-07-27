@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1018</width>
-    <height>775</height>
+    <height>459</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -23,78 +23,64 @@
    <bool>false</bool>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QTableWidget" name="tableWidgetDepart">
+   <widget class="QTabWidget" name="tabWidget">
     <property name="geometry">
      <rect>
-      <x>50</x>
-      <y>90</y>
-      <width>871</width>
-      <height>221</height>
-     </rect>
-    </property>
-    <property name="autoFillBackground">
-     <bool>true</bool>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">font: 75 8pt &quot;MS Shell Dlg 2&quot;;</string>
-    </property>
-   </widget>
-   <widget class="QTableWidget" name="tableWidgetArrivee">
-    <property name="geometry">
-     <rect>
-      <x>50</x>
-      <y>400</y>
-      <width>871</width>
-      <height>221</height>
-     </rect>
-    </property>
-    <property name="autoFillBackground">
-     <bool>true</bool>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">font: 75 8pt &quot;MS Shell Dlg 2&quot;;</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label">
-    <property name="geometry">
-     <rect>
-      <x>50</x>
+      <x>40</x>
       <y>50</y>
-      <width>71</width>
-      <height>31</height>
+      <width>881</width>
+      <height>341</height>
      </rect>
     </property>
-    <property name="font">
-     <font>
-      <pointsize>12</pointsize>
-     </font>
+    <property name="autoFillBackground">
+     <bool>true</bool>
     </property>
-    <property name="text">
-     <string>Départ</string>
+    <property name="currentIndex">
+     <number>0</number>
     </property>
+    <widget class="QWidget" name="tab">
+     <attribute name="title">
+      <string>Départ</string>
+     </attribute>
+     <widget class="QTableWidget" name="tableWidgetDepart">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>881</width>
+        <height>321</height>
+       </rect>
+      </property>
+      <property name="autoFillBackground">
+       <bool>true</bool>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">font: 75 8pt &quot;MS Shell Dlg 2&quot;;</string>
+      </property>
+     </widget>
+    </widget>
+    <widget class="QWidget" name="tab_2">
+     <attribute name="title">
+      <string>Arrivée</string>
+     </attribute>
+     <widget class="QTableWidget" name="tableWidgetArrivee">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>-1</y>
+        <width>881</width>
+        <height>321</height>
+       </rect>
+      </property>
+      <property name="autoFillBackground">
+       <bool>true</bool>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">font: 75 8pt &quot;MS Shell Dlg 2&quot;;</string>
+      </property>
+     </widget>
+    </widget>
    </widget>
-   <widget class="QLabel" name="label_2">
-    <property name="geometry">
-     <rect>
-      <x>50</x>
-      <y>370</y>
-      <width>71</width>
-      <height>16</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <pointsize>12</pointsize>
-     </font>
-    </property>
-    <property name="text">
-     <string>Arrivée</string>
-    </property>
-   </widget>
-   <zorder>label</zorder>
-   <zorder>label_2</zorder>
-   <zorder>tableWidgetDepart</zorder>
-   <zorder>tableWidgetArrivee</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
@@ -117,6 +103,7 @@
      <addaction name="actionArrivee"/>
     </widget>
     <addaction name="menuAjouter_vol"/>
+    <addaction name="actionModifier_vol"/>
     <addaction name="actionSupprimer_vol"/>
     <addaction name="separator"/>
     <addaction name="actionQuitter"/>
@@ -142,6 +129,11 @@
   <action name="actionArrivee">
    <property name="text">
     <string>Arrivee</string>
+   </property>
+  </action>
+  <action name="actionModifier_vol">
+   <property name="text">
+    <string>Modifier vol</string>
    </property>
   </action>
  </widget>
@@ -211,10 +203,27 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>actionModifier_vol</sender>
+   <signal>triggered()</signal>
+   <receiver>FenetrePrincipal</receiver>
+   <slot>slotMenuModifierVol()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>508</x>
+     <y>387</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>slotMenuDepart()</slot>
   <slot>slotMenuArrivee()</slot>
   <slot>slotMenuSupprimerVol()</slot>
+  <slot>slotMenuModifierVol()</slot>
  </slots>
 </ui>

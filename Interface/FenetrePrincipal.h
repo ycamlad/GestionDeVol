@@ -25,12 +25,13 @@ public:
   private slots:
     void slotMenuDepart();
     void slotMenuArrivee();
+    void slotMenuModifierVol();
     void slotMenuSupprimerVol();
 private:
 private:
     //QStandardItemModel& modelDepart;
     //QStandardItemModel& modelArrivee;
-    Ui::FenetrePrincipal widget;
+    Ui::FenetrePrincipal widget{};
     DatabaseManager &m_db;
     QString m_id;
     QString m_role;
