@@ -258,6 +258,7 @@ void FenetrePrincipal::slotMenuModifierVol(){
         }
 
     }
+    m_aeroport=interfaceModifier.reqAero();
     rafraichirAffichage();
 }
 

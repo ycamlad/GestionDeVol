@@ -80,6 +80,7 @@ void ModifierVol::slotModifierVol() {
     }
 
 
+
     accept();
 
 }
@@ -112,6 +113,10 @@ std::string ModifierVol::reqStatut() const {
     return ui->comboBoxStatut->currentText().toStdString();
 }
 
+
+const Aeroport &ModifierVol::reqAero() const {
+    return m_aero;
+}
 
 void ModifierVol::refresh() {
     QString selectedVol = ui->comboBoxVols->currentText();
@@ -157,5 +162,8 @@ void ModifierVol::departMode(bool isDepart) {
     ui->comboBoxStatut->setVisible(!isDepart);
     ui->label_8->setVisible(!isDepart);
 }
+
+
+
 
 

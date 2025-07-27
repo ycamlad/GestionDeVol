@@ -28,6 +28,7 @@ public:
     std::string reqEmbq()const;
     std::string reqPorte()const;
     std::string reqStatut()const;
+    const Aeroport& reqAero ()const;
 private slots:
     void slotModifierVol();
 
