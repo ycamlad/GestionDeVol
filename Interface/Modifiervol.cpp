@@ -79,8 +79,6 @@ void ModifierVol::slotModifierVol() {
          }
     }
 
-
-
     accept();
 
 }

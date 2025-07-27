@@ -262,11 +262,6 @@ void FenetrePrincipal::slotMenuModifierVol(){
     rafraichirAffichage();
 }
 
-/**
- * UPDATE Customers
-SET ContactName = 'Alfred Schmidt', City= 'Frankfurt'
-WHERE CustomerID = 1;
- * **/
 
 void FenetrePrincipal::slotMenuSupprimerVol(){
     SupprimerVol interfaceSupprimer(m_aeroport);
