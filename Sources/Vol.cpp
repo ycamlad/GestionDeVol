@@ -91,10 +91,10 @@ void Vol::asgVille(const std::string &p_ville){
 Vol& Vol::operator=(const Vol& p_vol){
     if(*this==p_vol) return *this;
 
-    if(m_numero!=p_vol.m_numero) m_numero=p_vol.m_numero;
-    if(m_compagnie!=p_vol.m_compagnie) m_compagnie=p_vol.m_compagnie;
-    if(m_heure!=p_vol.m_heure) m_heure=p_vol.m_heure;
-    if(m_ville!=p_vol.m_ville) m_ville=p_vol.m_ville;
+    m_numero=p_vol.m_numero;
+    m_compagnie=p_vol.m_compagnie;
+    m_heure=p_vol.m_heure;
+    m_ville=p_vol.m_ville;
 
     POSTCONDITION(m_numero==p_vol.m_numero)
     POSTCONDITION(m_compagnie==p_vol.m_compagnie)

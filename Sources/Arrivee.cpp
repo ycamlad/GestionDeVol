@@ -61,7 +61,6 @@ void Arrivee::asgStatut(const std::string &p_statut) {
  * \return Un pointeur vers une copie polymorphique du vol courant
  */
 std::unique_ptr<Vol> Arrivee::clone() const {
-    //return std::unique_ptr<Vol>(new Arrivee(*this));
     return std::make_unique<Arrivee>(*this);
 }
 

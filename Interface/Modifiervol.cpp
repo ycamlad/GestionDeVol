@@ -4,12 +4,14 @@
 
 // You may need to build the project (run Qt uic code generator) to get "ui_ModifierVol.h" resolved
 
+#include <iostream>
 #include "Modifiervol.h"
 #include "ui_ModifierVol.h"
 #include "validationFormat.h"
 #include "QMessageBox"
 #include "Depart.h"
 #include "Arrivee.h"
+#include "QDebug"
 
 
 using namespace util;
@@ -62,15 +64,21 @@ void ModifierVol::slotModifierVol() {
         return;
     }
 
+
     Depart depart(ui->comboBoxVols->currentText().toStdString(),reqCompagnie(),reqHeure(),reqVille(),reqEmbq(),reqPorte());
+    std::string s = reqCompagnie();
     Arrivee arrivee(ui->comboBoxVols->currentText().toStdString(),reqCompagnie(),reqHeure(),reqVille(),reqStatut());
     for(auto &e:m_aero.reqVols()){
          if(ui->comboBoxVols->currentText().toStdString()==e->reqNumero()){
-             if(e->estDepart())
-             e.get()->operator=(depart);
-             else e.get()->operator=(arrivee);
+             if(e->estDepart()) {
+                 e.reset(new Depart(depart));
+             }
+             else{
+                 e.reset(new Arrivee(arrivee));
+             }
          }
     }
+
 
     accept();
 

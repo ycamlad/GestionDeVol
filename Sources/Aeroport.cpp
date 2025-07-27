@@ -151,6 +151,10 @@ const std::vector<std::unique_ptr<Vol>>& Aeroport::reqVols() const {
     return m_vVols;
 }
 
+std::vector<std::unique_ptr<Vol>> &Aeroport::reqVols() {
+    return m_vVols;
+}
+
 
 /**
  * \brief Retourne une chaine formatée représentant l'aéroport et ses vols
@@ -223,5 +227,6 @@ std::string Aeroport::reqAeroportFormate() {
 
     return formater;
 }
+
 
 

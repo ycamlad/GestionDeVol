@@ -37,7 +37,7 @@ namespace aerien {
         void asgCompagnie(const std::string &p_compagnie);
         void asgVille(const std::string &p_ville);
 
-        Vol&operator=(const Vol& p_vol);
+        virtual Vol&operator=(const Vol& p_vol);
 
         virtual ~Vol()=default;
 

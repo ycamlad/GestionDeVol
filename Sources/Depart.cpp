@@ -87,8 +87,9 @@ void Depart::asgPorteEmbarquement(const std::string &p_PorteEmbarquement) {
  * \return Un pointeur vers une nouvelle instance identique
  */
 std::unique_ptr<Vol> Depart::clone() const {
-    return std::unique_ptr<Vol>(new Depart(*this));
+    return std::make_unique<Depart>(*this);
 }
+
 
 /**
  * \brief Retourne une représentation formatée du vol de départ
@@ -112,6 +113,17 @@ std::string Depart::reqVolFormate() const {
 void Depart::verifierInvariant() const {
     INVARIANT(estFormat24HValide(m_heureEmbarquement)&&m_heureEmbarquement<reqHeure())
     INVARIANT(estPorteValide(m_porteEmbarquement))
+}
+
+Depart &Depart::operator=(const Depart &p_depart) {
+    if(*this==p_depart) return *this;
+
+    //Vol::operator=(p_depart);
+    this->m_heureEmbarquement=p_depart.m_heureEmbarquement;
+    this->m_porteEmbarquement=p_depart.m_porteEmbarquement;
+
+    POSTCONDITION(this->operator==(p_depart));
+    return *this;
 }
 
 

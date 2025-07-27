@@ -228,12 +228,15 @@ void FenetrePrincipal::slotMenuModifierVol(){
         if(interfaceModifier.reqStatut()==" Retardé ") statut=2;
         if(interfaceModifier.reqStatut()=="À l’heure") statut=3;
         for(auto &e:m_aeroport.reqVols()){
-            if(interfaceModifier.reqNumero()==m_aeroport.reqCode()){
+            if(interfaceModifier.reqNumero()==e.get()->reqNumero()){
                 if(e->estDepart()){
                     type=0;
-                    query.prepare("UPDATE Vols SET TypeVol =:type, SET Compagnie=:comp, SET Heure=:heure ,SET Ville=:ville, SET HEmbq=:embq, SET PNum=:porte WHERE NumVol=:num ");
+                    query.prepare("UPDATE Vols SET TypeVol = :type, Compagnie = :comp, Heure = :heure,\n"
+                                  "               Ville = :ville, HEmbq = :embq, PNum = :porte\n"
+                                  "WHERE NumVol = :num");
+                    query.bindValue(":num",QString::fromStdString(interfaceModifier.reqNumero()));
                     query.bindValue(":type",type);
-                    query.bindValue(":Compagnie",QString::fromStdString(interfaceModifier.reqCompagnie()));
+                    query.bindValue(":comp",QString::fromStdString(interfaceModifier.reqCompagnie()));
                     query.bindValue(":heure",QString::fromStdString(interfaceModifier.reqHeure()));
                     query.bindValue(":ville",QString::fromStdString(interfaceModifier.reqVille()));
                     query.bindValue(":embq",QString::fromStdString(interfaceModifier.reqEmbq()));
@@ -247,13 +250,15 @@ void FenetrePrincipal::slotMenuModifierVol(){
                     query.bindValue(":Compagnie",QString::fromStdString(interfaceModifier.reqCompagnie()));
                     query.bindValue(":heure",QString::fromStdString(interfaceModifier.reqHeure()));
                     query.bindValue(":ville",QString::fromStdString(interfaceModifier.reqVille()));
-                    query.bindValue(":statut",QString::fromStdString(interfaceModifier.reqStatut()));
+
+                    query.bindValue(":statut",statut);
                     if (!query.exec()) throw DatabaseException("Suppression invalide:",query.lastError().text());
                 }
             }
         }
 
     }
+    rafraichirAffichage();
 }
 
 /**
