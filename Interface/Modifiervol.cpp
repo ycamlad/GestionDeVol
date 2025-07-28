@@ -5,6 +5,7 @@
 // You may need to build the project (run Qt uic code generator) to get "ui_ModifierVol.h" resolved
 
 #include <iostream>
+#include <memory>
 #include "Modifiervol.h"
 #include "ui_ModifierVol.h"
 #include "validationFormat.h"
@@ -71,10 +72,10 @@ void ModifierVol::slotModifierVol() {
     for(auto &e:m_aero.reqVols()){
          if(ui->comboBoxVols->currentText().toStdString()==e->reqNumero()){
              if(e->estDepart()) {
-                 e.reset(new Depart(depart));
+                 e = std::make_unique<Depart>(depart);
              }
              else{
-                 e.reset(new Arrivee(arrivee));
+                 e = std::make_unique<Arrivee>(arrivee);
              }
          }
     }

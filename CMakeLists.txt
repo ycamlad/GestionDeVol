@@ -46,6 +46,7 @@ add_executable(Gestion_de_vol main.cpp
         Interface/AjouterUtilisateur.cpp
         Interface/AjouterUtilisateur.h
         Interface/AjouterUtilisateur.ui
+        Sources/Utilisateur.h
 )
 
 if(CMAKE_BUILD_TYPE STREQUAL "Debug")
@@ -86,6 +87,7 @@ add_executable(Console
         Sources/VolDejaPresentException.h
         Sources/VolAbsentException.h
         DataBase/DataBaseException.h
+        Sources/Utilisateur.h
 )
 
 target_link_libraries(Console
@@ -176,6 +178,7 @@ add_executable(DBTests
         Sources/Vol.cpp
         Sources/Depart.cpp
         DataBase/DataBaseException.h
+        Sources/Utilisateur.h
 )
 target_link_libraries(DBTests gtest_main)
 # ==================== Google Test Discovery ====================

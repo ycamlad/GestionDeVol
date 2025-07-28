@@ -3,6 +3,8 @@
 #include "AjouterArrivee.h"
 #include "Modifiervol.h"
 #include "SupprimerVol.h"
+#include "Utilisateur.h"
+#include "AjouterUtilisateur.h"
 #include "VolDejaPresentException.h"
 #include "VolAbsentException.h"
 #include <QMessageBox>
@@ -68,6 +70,20 @@ FenetrePrincipal::FenetrePrincipal(DatabaseManager &p_db,const QString& p_id,
                     }
 
                 }
+            query.prepare("SELECT * FROM Utilisateurs");
+            while (!query.exec()){
+                QMessageBox::critical(this,"Erreur",query.lastError().text());
+                return;
+            }
+            while(query.next()){
+                Utilisateur u(query.value("Nom").toString(),query.value("NAeroport").toString(),query.value("Role").toString(),query.value("Pass").toString(),query.value("Statut").toInt());
+                m_utilisateurs.push_back(u);
+            }
+//
+//            widget.tableWidgetUtilisateurs->setColumnCount(6);
+//            widget.tableWidgetUtilisateurs->setHorizontalHeaderLabels({"ID","Nom","Aeroport","Role","Pass","Statut"});
+
+
 
     }else {
         query.prepare(
@@ -112,6 +128,9 @@ FenetrePrincipal::FenetrePrincipal(DatabaseManager &p_db,const QString& p_id,
             }
 
         }
+
+        widget.menuAdmin->menuAction()->setVisible(false);
+        widget.tabWidgetFenetrePrincipal->removeTab(2);
     }
 
     m_aeroport=aeroport;
@@ -137,6 +156,9 @@ FenetrePrincipal::FenetrePrincipal(DatabaseManager &p_db,const QString& p_id,
     //Arrivee table
     widget.tableWidgetArrivee->setColumnCount(5);
     widget.tableWidgetArrivee->setHorizontalHeaderLabels({"Numéro", "Compagnie", "Heure", "Ville", "Statut"});
+
+    widget.tableWidgetUtilisateurs->setColumnCount(5);
+    widget.tableWidgetUtilisateurs->setHorizontalHeaderLabels({"Nom","Aeroport","Role","Pass","Statut"});
 
     rafraichirAffichage();
 }
@@ -287,12 +309,49 @@ void FenetrePrincipal::slotMenuSupprimerVol(){
 }
 
 
+void FenetrePrincipal::slotAdminUtilisateur() {
+    AjouterUtilisateur interfaceAjouterUtilisateur(m_aeroport);
+    interfaceAjouterUtilisateur.setWindowIcon(icon());
+    try{
+        if(interfaceAjouterUtilisateur.exec()) {
+            QSqlQuery query;
+            query.prepare(
+                    "INSERT INTO Utilisateurs(Nom,NAeroport,Role,Pass,Statut) VALUES(:nom,:aero,:role,:pass,:statut)");
+            query.bindValue(":nom", interfaceAjouterUtilisateur.reqNomUtilisateur());
+            query.bindValue(":aero", interfaceAjouterUtilisateur.reqAeroport());
+            query.bindValue(":role", interfaceAjouterUtilisateur.reqRole());
+            query.bindValue(":pass",interfaceAjouterUtilisateur.reqMotDePasse());
+            query.bindValue(":statut", 0);
+
+            if (!query.exec()) throw DatabaseException("Insertion invalide:",query.lastError().text());
+
+            Utilisateur u (interfaceAjouterUtilisateur.reqNomUtilisateur(),
+                           interfaceAjouterUtilisateur.reqAeroport(),
+                           interfaceAjouterUtilisateur.reqRole(),
+                           interfaceAjouterUtilisateur.reqMotDePasse(),0);
+            m_utilisateurs.push_back(u);
+
+            rafraichirAffichage();
+        }
+
+    }catch(DatabaseException &e){
+        QMessageBox::warning(this,"Erreur",e.what());
+    }
+}
+
+void FenetrePrincipal::slotAdminAeroport() {
+
+}
+
+
 
 void FenetrePrincipal::rafraichirAffichage() {
         widget.tableWidgetDepart->clearContents();
         widget.tableWidgetDepart->setRowCount(0);
         widget.tableWidgetArrivee->clearContents();
         widget.tableWidgetArrivee->setRowCount(0);
+        widget.tableWidgetUtilisateurs->clearContents();
+        widget.tableWidgetUtilisateurs->setRowCount(0);
 
         for (const auto &vol: m_aeroport.reqVols()) {
             if (vol->estDepart()) {
@@ -321,13 +380,31 @@ void FenetrePrincipal::rafraichirAffichage() {
                         QString::fromStdString(dynamic_cast<Arrivee *>(vol.get())->reqStatut())));
             }
         }
+
+        QString statut;
+        for(const auto &u:m_utilisateurs){
+            int row = widget.tableWidgetUtilisateurs->rowCount();
+            widget.tableWidgetUtilisateurs->insertRow(row);
+
+            if(u.statut==0) statut = "Normal";
+            else statut = "Bloquer";
+
+            widget.tableWidgetUtilisateurs->setItem(row,1,new QTableWidgetItem(u.nom));
+            widget.tableWidgetUtilisateurs->setItem(row,2,new QTableWidgetItem(u.nAero));
+            widget.tableWidgetUtilisateurs->setItem(row,3,new QTableWidgetItem(u.role));
+            widget.tableWidgetUtilisateurs->setItem(row,4,new QTableWidgetItem(u.pass));
+            widget.tableWidgetUtilisateurs->setItem(row,5,new QTableWidgetItem(statut));
+        }
 }
+
 
 
 
 QIcon FenetrePrincipal::icon() {
     return QIcon(":/Resources/iconmonstr-airport-10-240.png");
 }
+
+
 
 
 

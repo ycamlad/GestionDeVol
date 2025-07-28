@@ -19,9 +19,13 @@ class AjouterUtilisateur : public QDialog {
 Q_OBJECT
 
 public:
-    explicit AjouterUtilisateur(DatabaseManager &p_db,const Aeroport&p_aero,QWidget *parent = nullptr);
+    explicit AjouterUtilisateur(const Aeroport&p_aero,QWidget *parent = nullptr);
 
     ~AjouterUtilisateur() override;
+    QString reqNomUtilisateur();
+    QString reqMotDePasse();
+    QString reqRole();
+    QString reqAeroport();
 
 private slots:
     void slotAjouterUtilisateur();
@@ -29,7 +33,6 @@ private slots:
 private:
     Ui::AjouterUtilisateur *ui;
     Aeroport m_aeroport;
-    DatabaseManager &m_db;
 };
 
 

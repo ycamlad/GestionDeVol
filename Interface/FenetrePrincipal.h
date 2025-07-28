@@ -5,6 +5,7 @@
 #include "Aeroport.h"
 #include "Depart.h"
 #include "Arrivee.h"
+#include <Utilisateur.h>
 #include "QStandardItemModel"
 #include "QApplication"
 #include "databasemanager.h"
@@ -27,6 +28,8 @@ public:
     void slotMenuArrivee();
     void slotMenuModifierVol();
     void slotMenuSupprimerVol();
+    void slotAdminUtilisateur();
+    void slotAdminAeroport();
 private:
 private:
     //QStandardItemModel& modelDepart;
@@ -38,6 +41,7 @@ private:
     QString m_aero;
     Aeroport m_aeroport;
     size_t m_size=m_aeroport.reqVols().size();
+    std::vector<Utilisateur>m_utilisateurs;
 
 
   void rafraichirAffichage();

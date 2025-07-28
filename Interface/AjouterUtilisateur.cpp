@@ -14,11 +14,10 @@
 #include "validationFormat.h"
 
 using namespace util;
-AjouterUtilisateur::AjouterUtilisateur(DatabaseManager &p_db,const Aeroport&p_aero,QWidget *parent) :
-        QDialog(parent), ui(new Ui::AjouterUtilisateur), m_aeroport(p_aero), m_db(p_db) {
+AjouterUtilisateur::AjouterUtilisateur(const Aeroport&p_aero,QWidget *parent) :
+        QDialog(parent), ui(new Ui::AjouterUtilisateur), m_aeroport(p_aero){
     ui->setupUi(this);
 
-    m_db.connect();
     QSqlQuery query;
     std::vector<QString> nomAeroport;
     query.prepare("SELECT * FROM Aeroport");
@@ -42,14 +41,33 @@ AjouterUtilisateur::~AjouterUtilisateur() {
 }
 
 void AjouterUtilisateur::slotAjouterUtilisateur() {
-    //while(!estNomValide(ui->lineEdiNutilisateur->text().toStdString())){
-        if(!estNomValide(ui->lineEdiNutilisateur->text().toStdString())){
-            QMessageBox::warning(this, "Erreur", "Nom d'utilisateur invalide");
-            return;
+    while(reqNomUtilisateur().isEmpty()||reqMotDePasse().isEmpty()){
+        if(reqNomUtilisateur().isEmpty()){
+            QMessageBox::warning(this, "Erreur", "Nom d'utilisateur vide");
         }
-    //}
+        if(reqMotDePasse().isEmpty()){
+            QMessageBox::warning(this, "Erreur", "Mot de passe vide ");
+        }
+        return;
+    }
+    accept();
 }
 
+QString AjouterUtilisateur::reqNomUtilisateur() {
+    return ui->lineEdiNutilisateur->text();
+}
+
+QString AjouterUtilisateur::reqMotDePasse() {
+    return ui->lineEditMotDepasse->text();
+}
+
+QString AjouterUtilisateur::reqAeroport() {
+    return ui->comboBoxVols->currentText();
+}
+
+QString AjouterUtilisateur::reqRole() {
+    return ui->comboBoxRole->currentText();
+}
 
 
 
