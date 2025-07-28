@@ -29,7 +29,7 @@ public:
     DatabaseManager& operator=(DatabaseManager&&) = delete;
 
     bool connect(const QString &dbName="Voldb");
-    bool inserertUtilisateur(const QString &p_nom,const QString &p_nomAeroport,const QString &p_role,const QString &p_motDePass,bool p_statut);
+    bool inserertUtilisateur(const QString &p_nom,const QString &p_nomAeroport,const QString &p_role,const QString &p_motDePass);
 //    QList<QPair<int, QString>> reqUtilisateurs();
 //    QList<QPair<int, QVector<QVector<QString>>>>reqVols(const QString& p_role,int p_uid=0);
 

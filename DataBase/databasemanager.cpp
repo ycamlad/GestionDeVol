@@ -68,8 +68,7 @@ bool DatabaseManager::inserertUtilisateur(
         const QString &p_nom,
         const QString &p_nomAeroport,
         const QString &p_role,
-        const QString &p_motDePass,
-        bool p_statut)
+        const QString &p_motDePass)
 {
     QSqlQuery query;
     query.prepare("INSERT INTO Utilisateurs (Nom,NAeroport,Role,Pass,Statut) VALUES (:nom,:na,:role,:pass,:stat)");
@@ -77,7 +76,7 @@ bool DatabaseManager::inserertUtilisateur(
     query.bindValue(":na",p_nomAeroport);
     query.bindValue(":role",p_role);
     query.bindValue(":pass",p_motDePass);
-    query.bindValue(":stat",p_statut);
+    query.bindValue(":stat",0);
 
     if (!query.exec()) throw DatabaseException("Insertion invalide:",query.lastError().text());
 
