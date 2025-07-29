@@ -56,6 +56,8 @@ bool DatabaseManager::connect(const QString &dbName)
     pragmaQuery.exec("PRAGMA foreign_keys = ON;");
 
     qDebug() << "Database connected.";
+    qDebug() << "DB file in use:" << db.databaseName();
+
     return true;
 }
 

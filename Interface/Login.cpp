@@ -9,6 +9,7 @@
 #include "ui_Login.h"
 #include "FenetrePrincipal.h"
 #include "databasemanager.h"
+#include "QSqlRecord"
 
 
 Login::Login(QWidget *parent) :
@@ -28,63 +29,38 @@ void Login::slotConfirmer() {
 
     QString nom =ui->lineEditNom->text();
     QString pass=ui->lineEditPass->text();
-    QString id = "";
-    QString role="";
-    QString naero="";
 
     QSqlQuery query;
-    query.prepare("SELECT ID,Role,NAeroport FROM Utilisateurs WHERE Nom=:nom AND  Pass=:pass AND  Statut=0");
+    query.prepare("SELECT ID,NomAeroport,Role FROM Utilisateurs WHERE NomUtilisateur=:nom AND Pass=:pass AND Statut=0");
     query.bindValue(":nom",nom);
     query.bindValue(":pass",pass);
 
     if(!query.exec())  {
-        QMessageBox::warning(this,"Erreur","Mots de passe ou/et nom d'utilisateur invalide");
+        QMessageBox::critical(this, "Erreur", "Erreur lors de l'exécution de la requête:\n" + query.lastError().text());        return;
+    }
+    if(query.next()){
+    //if(query.first()){
+        QString id = query.value("ID").toString();
+        QString role = query.value("Role").toString();
+        QString aeroport = query.value("NomAeroport").toString();
+        for (int i = 0; i < query.record().count(); ++i) {
+            qDebug() << "Column" << i << ":" << query.record().fieldName(i);
+        }
+        auto *f = new FenetrePrincipal(db, id, role, aeroport);
+        f->setWindowIcon(icon);
+        f->setFixedHeight(775);
+        f->setFixedWidth(1018);
+        f->setAutoFillBackground(true);
+
+        QPalette palette;
+        palette.setBrush(f->backgroundRole(),
+                         QBrush(pixmap.scaled(f->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation)));
+        f->setPalette(palette);
+        f->show();
+        this->hide();
+    }else{
+        QMessageBox::warning(this, "Erreur", "Nom d'utilisateur ou mot de passe incorrect.");
         return;
     }
-        if(query.next()) {
-
-            auto *f = new FenetrePrincipal(db,query.value("ID").toString(),
-                                           query.value("Role").toString(),
-                                           query.value("NAeroport").toString());
-
-
-
-            f->setWindowIcon(icon);
-            f->setFixedHeight(775);
-            f->setFixedWidth(1018);
-            f->setAutoFillBackground(true);
-
-            QPalette palette;
-            palette.setBrush(f->backgroundRole(),
-                             QBrush(pixmap.scaled(f->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation)));
-            f->setPalette(palette);
-
-            f->show();
-
-            this->hide();
-        }else{
-            QMessageBox::critical(this,"Erreur",query.lastError().text());
-
-        }
-//
-//    auto *f = new FenetrePrincipal(db,id,role,naero);
-//
-//
-//
-//    f->setWindowIcon(icon);
-//    f->setFixedHeight(775);
-//    f->setFixedWidth(1018);
-//    f->setAutoFillBackground(true);
-//
-//    QPalette palette;
-//    palette.setBrush(f->backgroundRole(),
-//                     QBrush(pixmap.scaled(f->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation)));
-//    f->setPalette(palette);
-//
-//    f->show();
-//
-//    this->hide();
-
-
 }
 

@@ -31,10 +31,12 @@ public:
 
 private slots:
     void slotAjouterUtilisateur();
+    void slotGenererNomUtilisateur();
 
 private:
     Ui::AjouterUtilisateur *ui;
     Aeroport m_aeroport;
+
 };
 
 

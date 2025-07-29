@@ -17,15 +17,11 @@ int main ()
     try {
         DatabaseManager &db = DatabaseManager::instance();
         db.connect();
-        auto ls = db.reqVols("Admin");
-        for(auto &e : ls){
-            std::cout<<e.first<<std::endl;
-            for(auto &x:e.second){
-                for(auto &y : x){
-                    std::cout<<y.toStdString()<<std::endl;
-                }
-            }
-        }
+
+        QSqlQuery query;
+        query.exec("SELECT * FROM Utilisateurs WHERE ID=1");
+        std::cout<< query.value("Role").toString().toStdString();
+
     }catch(DatabaseException &e){
         std::cout<<e.what();
     }

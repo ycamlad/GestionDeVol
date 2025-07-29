@@ -9,7 +9,6 @@
 #include "QSqlQuery"
 #include "QMessageBox"
 #include "DataBaseException.h"
-#include "databasemanager.h"
 #include "vector"
 #include "validationFormat.h"
 
@@ -41,7 +40,14 @@ AjouterUtilisateur::~AjouterUtilisateur() {
 }
 
 void AjouterUtilisateur::slotAjouterUtilisateur() {
-    while(reqNomUtilisateur().isEmpty()||reqMotDePasse().isEmpty()){
+    while(reqNomUtilisateur().isEmpty()||reqNom().isEmpty()||reqPrenom().isEmpty()||reqMotDePasse().isEmpty()){
+
+        if(reqNom().isEmpty()){
+            QMessageBox::warning(this, "Erreur", "Nom vide");
+        }
+        if(reqPrenom().isEmpty()){
+            QMessageBox::warning(this, "Erreur", "Prenom vide");
+        }
         if(reqNomUtilisateur().isEmpty()){
             QMessageBox::warning(this, "Erreur", "Nom d'utilisateur vide");
         }
@@ -53,12 +59,21 @@ void AjouterUtilisateur::slotAjouterUtilisateur() {
     accept();
 }
 
-QString AjouterUtilisateur::reqNomUtilisateur() {
-    return ui->lineEdiNutilisateur->text();
+QString AjouterUtilisateur::reqNom() {
+    QString upper =ui->lineEdiNom->text();
+    upper[0].toUpper();
+    return upper;
 }
 
-QString AjouterUtilisateur::reqMotDePasse() {
-    return ui->lineEditMotDepasse->text();
+QString AjouterUtilisateur::reqPrenom() {
+    QString upper = ui->lineEdiPrenom->text();
+    upper[0].toUpper();
+    return upper;
+}
+
+QString AjouterUtilisateur::reqNomUtilisateur() {
+    return ui->lineEditNomUtilisateur->text();
+
 }
 
 QString AjouterUtilisateur::reqAeroport() {
@@ -69,13 +84,22 @@ QString AjouterUtilisateur::reqRole() {
     return ui->comboBoxRole->currentText();
 }
 
-QString AjouterUtilisateur::reqNom() {
-    return QString();
+QString AjouterUtilisateur::reqMotDePasse() {
+    return ui->lineEditMotDepasse->text();
 }
 
-QString AjouterUtilisateur::reqPrenom() {
-    return QString();
+void AjouterUtilisateur::slotGenererNomUtilisateur() {
+    QString prenom = ui->lineEdiPrenom->text();
+    QString nom = ui->lineEdiNom->text();
+
+    if(!(reqNom().isEmpty()&&reqPrenom().isEmpty())){
+        ui->lineEditNomUtilisateur->setText((nom[0]+prenom).toLower());
+    }
+    return;
 }
+
+
+
 
 
 
