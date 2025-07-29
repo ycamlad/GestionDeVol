@@ -22,6 +22,8 @@ public:
     explicit AjouterUtilisateur(const Aeroport&p_aero,QWidget *parent = nullptr);
 
     ~AjouterUtilisateur() override;
+    QString reqNom();
+    QString reqPrenom();
     QString reqNomUtilisateur();
     QString reqMotDePasse();
     QString reqRole();

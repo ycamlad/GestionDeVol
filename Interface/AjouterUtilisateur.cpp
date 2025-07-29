@@ -69,6 +69,14 @@ QString AjouterUtilisateur::reqRole() {
     return ui->comboBoxRole->currentText();
 }
 
+QString AjouterUtilisateur::reqNom() {
+    return QString();
+}
+
+QString AjouterUtilisateur::reqPrenom() {
+    return QString();
+}
+
 
 
 

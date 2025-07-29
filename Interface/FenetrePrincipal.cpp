@@ -76,7 +76,8 @@ FenetrePrincipal::FenetrePrincipal(DatabaseManager &p_db,const QString& p_id,
                 return;
             }
             while(query.next()){
-                Utilisateur u(query.value("Nom").toString(),query.value("NAeroport").toString(),query.value("Role").toString(),query.value("Pass").toString(),query.value("Statut").toInt());
+                Utilisateur u(query.value("Nom").toString(),query.value("Prenom").toString(),query.value("NomUtilisateur").toString(),query.value("NomAeroport").toString(),query.value("Role").toString(),query.value("Pass").toString(),query.value("Statut").toInt());
+
                 m_utilisateurs.push_back(u);
             }
 //
@@ -316,7 +317,7 @@ void FenetrePrincipal::slotAdminUtilisateur() {
         if(interfaceAjouterUtilisateur.exec()) {
             QSqlQuery query;
             query.prepare(
-                    "INSERT INTO Utilisateurs(Nom,NAeroport,Role,Pass,Statut) VALUES(:nom,:aero,:role,:pass,:statut)");
+                    "INSERT INTO Utilisateurs(Nom,NomAeroport,Role,Pass,Statut) VALUES(:nom,:aero,:role,:pass,:statut)");
             query.bindValue(":nom", interfaceAjouterUtilisateur.reqNomUtilisateur());
             query.bindValue(":aero", interfaceAjouterUtilisateur.reqAeroport());
             query.bindValue(":role", interfaceAjouterUtilisateur.reqRole());
@@ -325,11 +326,11 @@ void FenetrePrincipal::slotAdminUtilisateur() {
 
             if (!query.exec()) throw DatabaseException("Insertion invalide:",query.lastError().text());
 
-            Utilisateur u (interfaceAjouterUtilisateur.reqNomUtilisateur(),
-                           interfaceAjouterUtilisateur.reqAeroport(),
-                           interfaceAjouterUtilisateur.reqRole(),
-                           interfaceAjouterUtilisateur.reqMotDePasse(),0);
-            m_utilisateurs.push_back(u);
+//            Utilisateur u (interfaceAjouterUtilisateur.reqNomUtilisateur(),
+//                           interfaceAjouterUtilisateur.reqAeroport(),
+//                           interfaceAjouterUtilisateur.reqRole(),
+//                           interfaceAjouterUtilisateur.reqMotDePasse(),0);
+//            m_utilisateurs.push_back(u);
 
             rafraichirAffichage();
         }
