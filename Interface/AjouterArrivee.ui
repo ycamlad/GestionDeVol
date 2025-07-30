@@ -125,7 +125,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>CHICAGO</string>
+    <string/>
    </property>
   </widget>
   <widget class="QLineEdit" name="lineEditHeure">
@@ -138,7 +138,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>21:06</string>
+    <string/>
    </property>
   </widget>
   <widget class="QLineEdit" name="lineEditCompagnie">
@@ -151,7 +151,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>UNITED AIRLINES</string>
+    <string/>
    </property>
   </widget>
   <widget class="QLineEdit" name="lineEditCode">
@@ -164,7 +164,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>UA3647</string>
+    <string/>
    </property>
   </widget>
   <widget class="QPushButton" name="pushButtonConfirmerArrivee">

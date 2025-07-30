@@ -7,6 +7,7 @@ using namespace util;
 AjouterArrivee::AjouterArrivee ()
 {
   widget.setupUi (this);
+  widget.comboBox->setCurrentIndex(0);
 }
 
 AjouterArrivee::~AjouterArrivee () { }

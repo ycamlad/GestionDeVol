@@ -13,6 +13,7 @@
 #include <QVariant>
 #include <QDebug>
 #include "Vol.h"
+#include <Aeroport.h>
 
 using namespace aerien;
 class DatabaseManager : public QObject
@@ -29,10 +30,26 @@ public:
     DatabaseManager& operator=(DatabaseManager&&) = delete;
 
     bool connect(const QString &dbName="Voldb");
-    bool inserertUtilisateur(const QString &p_nom,const QString &p_nomAeroport,const QString &p_role,const QString &p_motDePass);
-//    QList<QPair<int, QString>> reqUtilisateurs();
-//    QList<QPair<int, QVector<QVector<QString>>>>reqVols(const QString& p_role,int p_uid=0);
+    void ajouterVol(const Vol& vol, const std::string& codeAeroport, int uid);
+    bool inserertUtilisateur(
+            const QString &p_nom,
+            const QString &p_prenom,
+            const QString &p_nomUtilisateur,
+            const QString &p_nomAeroport,
+            const QString &p_role,
+            const QString &p_motDePass,
+            int p_statut=0
+    );
 
+    void modifierVol(
+            Aeroport& aeroport,
+            const std::string& numero,
+            const std::string& compagnie,
+            const std::string& heure,
+            const std::string& ville,
+            const std::string& embq,
+            const std::string& porte,
+            const std::string& statutStr);
 
 private:
     explicit DatabaseManager(QObject *parent = nullptr);

@@ -27,6 +27,9 @@ ModifierVol::ModifierVol(const Aeroport& p_aero,QWidget *parent) :
     connect(ui->comboBoxVols, QOverload<int>::of(&QComboBox::currentIndexChanged),
             this, &ModifierVol::refresh);
 
+    ui->comboBoxVols->setCurrentIndex(0);
+    refresh();
+
 }
 
 ModifierVol::~ModifierVol() {

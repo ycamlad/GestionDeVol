@@ -162,6 +162,9 @@ void FenetrePrincipal::slotMenuDepart(){
         try {
             Depart unDepart(interfaceDepart.reqNumero(), interfaceDepart.reqCompagnie(), interfaceDepart.reqHeure(),
                             interfaceDepart.reqVille(), interfaceDepart.reqEmbq(), interfaceDepart.reqPorte());
+            m_aeroport.ajouterVol(unDepart);
+            rafraichirAffichage();
+
             QSqlQuery query;
             query.prepare("INSERT INTO Vols (NomAeroport,UID,NumeroVol,TypeVol,Compagnie,Heure,Ville,HeureEmbarqument,NumeroPorte) VALUES(:na,:id,:num,:type,:comp,:heure,:ville,:embq,:porte)");
             query.bindValue(":na",QString::fromStdString(m_aeroport.reqCode()));
@@ -176,8 +179,6 @@ void FenetrePrincipal::slotMenuDepart(){
 
             if (!query.exec()) throw DatabaseException("Insertion invalide:",query.lastError().text());
 
-            m_aeroport.ajouterVol(unDepart);
-            rafraichirAffichage();
 
         }catch (VolDejaPresentException &e){
             QMessageBox::warning(this,"Erreur",e.what());
@@ -191,39 +192,42 @@ void FenetrePrincipal::slotMenuDepart(){
 void FenetrePrincipal::slotMenuArrivee(){
     AjouterArrivee interfaceArrivee;
     interfaceArrivee.setWindowIcon(icon());
-    try {
-        //if (yul.reqAeroportFormate()==interfaceArrivee.reqNumero()) throw VolDejaPresentException(" Le vol "+yul.reqCode()+" est deja present!");
-        Arrivee unArrivee(interfaceArrivee.reqNumero(), interfaceArrivee.reqCompagnie(),
-                          interfaceArrivee.reqHeure(), interfaceArrivee.reqVille(), interfaceArrivee.reqStatus());
-        QSqlQuery query;
-        int statut ;
-
-        if(interfaceArrivee.reqStatus()==" Atterri ") statut=1;
-        if(interfaceArrivee.reqStatus()==" Retardé ") statut=2;
-        if(interfaceArrivee.reqStatus()=="À l’heure") statut=3;
-
-        query.prepare("INSERT INTO Vols (NomAeroport,UID,NumeroVol,TypeVol,Compagnie,Heure,Ville,Statut) VALUES(:na,:id,:num,:type,:comp,:heure,:ville,:Statut)");
-        query.bindValue(":na",QString::fromStdString(m_aeroport.reqCode()));
-        query.bindValue(":id",m_id);
-        query.bindValue(":num",QString::fromStdString(interfaceArrivee.reqNumero()));
-        query.bindValue(":type",1);
-        query.bindValue(":comp",QString::fromStdString(interfaceArrivee.reqCompagnie()));
-        query.bindValue(":heure",QString::fromStdString(interfaceArrivee.reqHeure()));
-        query.bindValue(":ville",QString::fromStdString(interfaceArrivee.reqVille()));
-        query.bindValue(":Statut",statut);
-
-        if (!query.exec()) throw DatabaseException("Insertion invalide:",query.lastError().text());
-
-        m_aeroport.ajouterVol(unArrivee);
-        rafraichirAffichage();
-
-    }catch (VolDejaPresentException &e){
-        QMessageBox::warning(this,"Erreur",e.what());
-    }catch (DatabaseException &e) {
-        QMessageBox::warning(this,"Erreur",e.what());
-
-    }
     if(interfaceArrivee.exec()){
+        try {
+            Arrivee unArrivee(interfaceArrivee.reqNumero(), interfaceArrivee.reqCompagnie(),
+                              interfaceArrivee.reqHeure(), interfaceArrivee.reqVille(), interfaceArrivee.reqStatus());
+
+            m_aeroport.ajouterVol(unArrivee);
+            rafraichirAffichage();
+
+            QSqlQuery query;
+            int statut ;
+
+            if(interfaceArrivee.reqStatus()==" Atterri ") statut=1;
+            if(interfaceArrivee.reqStatus()==" Retardé ") statut=2;
+            if(interfaceArrivee.reqStatus()=="À l’heure") statut=3;
+
+            query.prepare("INSERT INTO Vols (NomAeroport,UID,NumeroVol,TypeVol,Compagnie,Heure,Ville,Statut) VALUES(:na,:id,:num,:type,:comp,:heure,:ville,:Statut)");
+            query.bindValue(":na",QString::fromStdString(m_aeroport.reqCode()));
+            query.bindValue(":id",m_id);
+            query.bindValue(":num",QString::fromStdString(interfaceArrivee.reqNumero()));
+            query.bindValue(":type",1);
+            query.bindValue(":comp",QString::fromStdString(interfaceArrivee.reqCompagnie()));
+            query.bindValue(":heure",QString::fromStdString(interfaceArrivee.reqHeure()));
+            query.bindValue(":ville",QString::fromStdString(interfaceArrivee.reqVille()));
+            query.bindValue(":Statut",statut);
+
+            if (!query.exec()) throw DatabaseException("Insertion invalide:",query.lastError().text());
+
+
+
+        }catch (VolDejaPresentException &e){
+            QMessageBox::warning(this,"Erreur",e.what());
+        }catch (DatabaseException &e) {
+            QMessageBox::warning(this,"Erreur",e.what());
+
+        }
+
     }
 }
 
@@ -240,7 +244,7 @@ void FenetrePrincipal::slotMenuModifierVol(){
         if(interfaceModifier.reqStatut()==" Retardé ") statut=2;
         if(interfaceModifier.reqStatut()=="À l’heure") statut=3;
         for(auto &e:m_aeroport.reqVols()){
-            if(interfaceModifier.reqNumero()==e.get()->reqNumero()){
+            if(interfaceModifier.reqNumero()==e->reqNumero()){
                 if(e->estDepart()){
                     type=0;
                     query.prepare("UPDATE Vols SET TypeVol = :type, Compagnie = :comp, Heure = :heure,\n"
@@ -253,8 +257,7 @@ void FenetrePrincipal::slotMenuModifierVol(){
                     query.bindValue(":ville",QString::fromStdString(interfaceModifier.reqVille()));
                     query.bindValue(":embq",QString::fromStdString(interfaceModifier.reqEmbq()));
                     query.bindValue(":porte",QString::fromStdString(interfaceModifier.reqPorte()));
-                    if (!query.exec()) throw DatabaseException("Suppression invalide:",query.lastError().text());
-
+                    if (!query.exec()) throw DatabaseException("Modification invalide:",query.lastError().text());
                 }else{
                     type=1;
                     query.prepare("UPDATE Vols SET TypeVol =:type, SET Compagnie=:comp, SET Heure=:heure ,SET Ville=:ville, SET Statut=:statut WHERE NumeroVol=:num ");
@@ -264,10 +267,12 @@ void FenetrePrincipal::slotMenuModifierVol(){
                     query.bindValue(":ville",QString::fromStdString(interfaceModifier.reqVille()));
 
                     query.bindValue(":statut",statut);
-                    if (!query.exec()) throw DatabaseException("Suppression invalide:",query.lastError().text());
+                    if (!query.exec()) throw DatabaseException("Modification invalide:",query.lastError().text());
                 }
             }
         }
+
+        //m_db.modifierVol()
 
     }
     m_aeroport=interfaceModifier.reqAero();
@@ -278,6 +283,7 @@ void FenetrePrincipal::slotMenuModifierVol(){
 void FenetrePrincipal::slotMenuSupprimerVol(){
     SupprimerVol interfaceSupprimer(m_aeroport);
     interfaceSupprimer.setWindowIcon(icon());
+
     if(interfaceSupprimer.exec()){
         try{
             QSqlQuery query;
@@ -300,22 +306,18 @@ void FenetrePrincipal::slotMenuSupprimerVol(){
 
 
 void FenetrePrincipal::slotAdminUtilisateur() {
-    AjouterUtilisateur interfaceAjouterUtilisateur(m_aeroport);
+    AjouterUtilisateur interfaceAjouterUtilisateur(m_aeroport,m_utilisateurs);
     interfaceAjouterUtilisateur.setWindowIcon(icon());
-    try{
-        if(interfaceAjouterUtilisateur.exec()) {
-            QSqlQuery query;
-            query.prepare(
-                    "INSERT INTO Utilisateurs(Nom,Prenom,NomUtilisateur,NomAeroport,Role,Pass,Statut) VALUES(:nom,:pnom,:nomu,:aero,:role,:pass,:statut)");
-            query.bindValue(":nom", interfaceAjouterUtilisateur.reqNomUtilisateur());
-            query.bindValue(":pnom",interfaceAjouterUtilisateur.reqPrenom());
-            query.bindValue("nomu",interfaceAjouterUtilisateur.reqNomUtilisateur());
-            query.bindValue(":aero", interfaceAjouterUtilisateur.reqAeroport());
-            query.bindValue(":role", interfaceAjouterUtilisateur.reqRole());
-            query.bindValue(":pass",interfaceAjouterUtilisateur.reqMotDePasse());
-            query.bindValue(":statut", 0);
 
-            if (!query.exec()) throw DatabaseException("Insertion invalide:",query.lastError().text());
+    if(interfaceAjouterUtilisateur.exec())
+    {
+        try{
+            m_db.inserertUtilisateur(interfaceAjouterUtilisateur.reqNom(),
+                                     interfaceAjouterUtilisateur.reqPrenom(),
+                                     interfaceAjouterUtilisateur.reqNomUtilisateur(),
+                                     interfaceAjouterUtilisateur.reqAeroport(),
+                                     interfaceAjouterUtilisateur.reqRole(),
+                                     interfaceAjouterUtilisateur.reqMotDePasse(),0);
 
             Utilisateur u (interfaceAjouterUtilisateur.reqNom(),
                            interfaceAjouterUtilisateur.reqPrenom(),
@@ -324,13 +326,12 @@ void FenetrePrincipal::slotAdminUtilisateur() {
                            interfaceAjouterUtilisateur.reqRole(),
                            interfaceAjouterUtilisateur.reqMotDePasse(),0);
             m_utilisateurs.push_back(u);
-
-            rafraichirAffichage();
+        }catch(DatabaseException &e){
+            QMessageBox::warning(this,"Erreur",e.what());
         }
 
-    }catch(DatabaseException &e){
-        QMessageBox::warning(this,"Erreur",e.what());
     }
+    rafraichirAffichage();
 }
 
 void FenetrePrincipal::slotAdminAeroport() {
@@ -383,13 +384,13 @@ void FenetrePrincipal::rafraichirAffichage() {
             if(u.statut==0) statut = "Normal";
             else statut = "Bloquer";
 
-            widget.tableWidgetUtilisateurs->setItem(row,1,new QTableWidgetItem(u.nomUtilisateur));
-            widget.tableWidgetUtilisateurs->setItem(row,2,new QTableWidgetItem(u.nom));
-            widget.tableWidgetUtilisateurs->setItem(row,3,new QTableWidgetItem(u.prenom));
-            widget.tableWidgetUtilisateurs->setItem(row,4,new QTableWidgetItem(u.nAero));
-            widget.tableWidgetUtilisateurs->setItem(row,5,new QTableWidgetItem(u.role));
-            widget.tableWidgetUtilisateurs->setItem(row,6,new QTableWidgetItem(u.pass));
-            widget.tableWidgetUtilisateurs->setItem(row,7,new QTableWidgetItem(statut));
+            widget.tableWidgetUtilisateurs->setItem(row,0,new QTableWidgetItem(u.nomUtilisateur));
+            widget.tableWidgetUtilisateurs->setItem(row,1,new QTableWidgetItem(u.nom));
+            widget.tableWidgetUtilisateurs->setItem(row,2,new QTableWidgetItem(u.prenom));
+            widget.tableWidgetUtilisateurs->setItem(row,3,new QTableWidgetItem(u.nAero));
+            widget.tableWidgetUtilisateurs->setItem(row,4,new QTableWidgetItem(u.role));
+            widget.tableWidgetUtilisateurs->setItem(row,5,new QTableWidgetItem(u.pass));
+            widget.tableWidgetUtilisateurs->setItem(row,6,new QTableWidgetItem(statut));
         }
 }
 

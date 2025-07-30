@@ -3,6 +3,8 @@
 #include "DataBaseException.h"
 #include <QSqlRecord>
 #include "QSqlQueryModel"
+#include "Depart.h"
+#include "Arrivee.h"
 
 
 // Static instance getter
@@ -61,6 +63,46 @@ bool DatabaseManager::connect(const QString &dbName)
     return true;
 }
 
+void DatabaseManager::ajouterVol(const Vol& vol, const std::string& codeAeroport, int uid) {
+    QSqlQuery query;
+
+    query.bindValue(":na", QString::fromStdString(codeAeroport));
+    query.bindValue(":id", uid);
+    query.bindValue(":num", QString::fromStdString(vol.reqNumero()));
+    query.bindValue(":comp", QString::fromStdString(vol.reqCompagnie()));
+    query.bindValue(":heure", QString::fromStdString(vol.reqHeure()));
+    query.bindValue(":ville", QString::fromStdString(vol.reqVille()));
+    query.bindValue(":type", vol.estDepart() ? 0 : 1);
+
+    if (vol.estDepart()) {
+        const Depart& d = dynamic_cast<const Depart&>(vol);
+        query.prepare(R"(
+            INSERT INTO Vols (NomAeroport, UID, NumeroVol, TypeVol, Compagnie, Heure, Ville, HeureEmbarqument, NumeroPorte)
+            VALUES(:na, :id, :num, :type, :comp, :heure, :ville, :embq, :porte)
+        )");
+        query.bindValue(":embq", QString::fromStdString(d.reqHeureEmbarquement()));
+        query.bindValue(":porte", QString::fromStdString(d.reqPorteEmbarquement()));
+    } else {
+        const Arrivee& a = dynamic_cast<const Arrivee&>(vol);
+        query.prepare(R"(
+            INSERT INTO Vols (NomAeroport, UID, NumeroVol, TypeVol, Compagnie, Heure, Ville, Statut)
+            VALUES(:na, :id, :num, :type, :comp, :heure, :ville, :Statut)
+        )");
+
+        int statut = 0;
+        const std::string& s = a.reqStatut();
+        if (s == " Atterri ") statut = 1;
+        else if (s == " Retardé ") statut = 2;
+        else if (s == "À l’heure") statut = 3;
+        query.bindValue(":Statut", statut);
+    }
+
+    if (!query.exec()) {
+        throw DatabaseException("Insertion invalide:", query.lastError().text());
+    }
+}
+
+
 /**
  * \brief Requete pour la creation d'un utilisateur dans la table utilisateur
  * \param[in]name Une chaine représentant le nom de l'utilisateur
@@ -68,21 +110,103 @@ bool DatabaseManager::connect(const QString &dbName)
  * **/
 bool DatabaseManager::inserertUtilisateur(
         const QString &p_nom,
+        const QString &p_prenom,
+        const QString &p_nomUtilisateur,
         const QString &p_nomAeroport,
         const QString &p_role,
-        const QString &p_motDePass)
+        const QString &p_motDePass,
+        int p_statut
+        )
 {
-    QSqlQuery query;
-    query.prepare("INSERT INTO Utilisateurs (Nom,NAeroport,Role,Pass,Statut) VALUES (:nom,:na,:role,:pass,:stat)");
-    query.bindValue(":nom", p_nom);
-    query.bindValue(":na",p_nomAeroport);
-    query.bindValue(":role",p_role);
-    query.bindValue(":pass",p_motDePass);
-    query.bindValue(":stat",0);
 
-    if (!query.exec()) throw DatabaseException("Insertion invalide:",query.lastError().text());
+    QSqlQuery query;
+    query.prepare(
+            "INSERT INTO Utilisateurs(Nom,Prenom,NomUtilisateur,NomAeroport,Role,Pass,Statut) VALUES(:nom,:pnom,:nomu,:aero,:role,:pass,:statut)");
+    query.bindValue(":nom", p_nom);
+    query.bindValue(":pnom", p_prenom);
+    query.bindValue(":nomu", p_nomUtilisateur);
+    query.bindValue(":aero", p_nomAeroport);
+    query.bindValue(":role", p_role);
+    query.bindValue(":pass", p_motDePass);
+    query.bindValue(":statut", p_statut);
+
+    if (!query.exec()) throw DatabaseException("Insertion invalide:", query.lastError().text());
 
     return true;
+}
+
+
+
+void DatabaseManager::modifierVol(
+        Aeroport& aeroport,
+        const std::string& numero,
+        const std::string& compagnie,
+        const std::string& heure,
+        const std::string& ville,
+        const std::string& embq,
+        const std::string& porte,
+        const std::string& statutStr){
+
+
+    QSqlQuery query;
+    int statut = -1;
+    int type = -1;
+
+    if (statutStr == " Atterri ") statut = 1;
+    else if (statutStr == " Retardé ") statut = 2;
+    else if (statutStr == "À l’heure") statut = 3;
+
+    const QString numVol = QString::fromStdString(numero);
+
+    for (auto& vol : aeroport.reqVols()) {
+        if (numero == vol->reqNumero()) {
+
+            if (vol->estDepart()) {
+                type = 0;
+                query.prepare(R"(
+                    UPDATE Vols
+                    SET TypeVol = :type,
+                        Compagnie = :comp,
+                        Heure = :heure,
+                        Ville = :ville,
+                        HeureEmbarqument = :embq,
+                        NumeroPorte = :porte
+                    WHERE NumeroVol = :num
+                )");
+                query.bindValue(":type", type);
+                query.bindValue(":comp", QString::fromStdString(compagnie));
+                query.bindValue(":heure", QString::fromStdString(heure));
+                query.bindValue(":ville", QString::fromStdString(ville));
+                query.bindValue(":embq", QString::fromStdString(embq));
+                query.bindValue(":porte", QString::fromStdString(porte));
+                query.bindValue(":num", numVol);
+            }
+            else {
+                type = 1;
+                query.prepare(R"(
+                    UPDATE Vols
+                    SET TypeVol = :type,
+                        Compagnie = :comp,
+                        Heure = :heure,
+                        Ville = :ville,
+                        Statut = :statut
+                    WHERE NumeroVol = :num
+                )");
+                query.bindValue(":type", type);
+                query.bindValue(":comp", QString::fromStdString(compagnie));
+                query.bindValue(":heure", QString::fromStdString(heure));
+                query.bindValue(":ville", QString::fromStdString(ville));
+                query.bindValue(":statut", statut);
+                query.bindValue(":num", numVol);
+            }
+
+            if (!query.exec()) {
+                throw DatabaseException("Mise à jour invalide :", query.lastError().text());
+            }
+
+            break;
+        }
+    }
 }
 
 /**

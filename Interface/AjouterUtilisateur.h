@@ -10,6 +10,7 @@
 #include "DataBaseException.h"
 #include "databasemanager.h"
 #include "QString"
+#include "Utilisateur.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class AjouterUtilisateur; }
@@ -19,7 +20,7 @@ class AjouterUtilisateur : public QDialog {
 Q_OBJECT
 
 public:
-    explicit AjouterUtilisateur(const Aeroport&p_aero,QWidget *parent = nullptr);
+    explicit AjouterUtilisateur(const Aeroport&p_aero,std::vector<Utilisateur>& p_utilisateur,QWidget *parent = nullptr);
 
     ~AjouterUtilisateur() override;
     QString reqNom();
@@ -36,6 +37,9 @@ private slots:
 private:
     Ui::AjouterUtilisateur *ui;
     Aeroport m_aeroport;
+    std::vector<Utilisateur>m_utilisateurs;
+    bool estNomDisponible();
+
 
 };
 

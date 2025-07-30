@@ -54,7 +54,7 @@ void Login::slotConfirmer() {
 
         QPalette palette;
         palette.setBrush(f->backgroundRole(),
-                         QBrush(pixmap.scaled(f->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation)));
+                         QBrush(pixmap.scaled(f->size(), Qt::KeepAspectRatioByExpanding, Qt::SmoothTransformation)));
         f->setPalette(palette);
         f->show();
         this->hide();

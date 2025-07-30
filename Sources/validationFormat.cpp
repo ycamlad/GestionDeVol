@@ -13,6 +13,7 @@ namespace util {
     }
 
     bool estFormat24HValide(const std::string &p_heure) {
+        if(p_heure.empty()) return false;
         bool heureValide = (p_heure.length() == 5 && p_heure[2] == ':');
         heureValide &= isdigit(p_heure[0]) && isdigit(p_heure[1]);
         heureValide &= isdigit(p_heure[3]) && isdigit(p_heure[4]);
