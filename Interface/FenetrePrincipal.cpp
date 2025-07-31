@@ -1,6 +1,7 @@
 #include "FenetrePrincipal.h"
 #include "AjouterDepart.h"
 #include "AjouterArrivee.h"
+#include "AjouterAeroport.h"
 #include "Modifiervol.h"
 #include "SupprimerVol.h"
 #include "Utilisateur.h"
@@ -13,7 +14,6 @@
 #include "DataBaseException.h"
 
 
-//FenetrePrincipal::FenetrePrincipal ():m_db(DatabaseManager::instance())
 FenetrePrincipal::FenetrePrincipal(DatabaseManager &p_db,const QString& p_id,
                                    const QString& p_role,const QString& p_aero,
                                    QWidget *parent):m_db(p_db),
@@ -125,19 +125,6 @@ FenetrePrincipal::FenetrePrincipal(DatabaseManager &p_db,const QString& p_id,
 
     m_aeroport=aeroport;
 
-
-//    for(int i =0;i<model.get()->rowCount();++i){
-//        bool vol = model->data(model->index(i,1)).toInt();
-//        if(!vol){
-//            widget.tableViewDepart->setModel(model.get());
-//            widget.tableViewDepart->hideColumn(7);
-//        }else{
-//            widget.tableViewArrivee->setModel(model.get());
-//            widget.tableViewArrivee->hideColumn(5);
-//            widget.tableViewArrivee->hideColumn(6);
-//        }
-//    }
-    //widget.tableViewDepart->setModel(model.get());
 
     //Depart table
     widget.tableWidgetDepart->setColumnCount(6);
@@ -335,7 +322,21 @@ void FenetrePrincipal::slotAdminUtilisateur() {
 }
 
 void FenetrePrincipal::slotAdminAeroport() {
+    AjouterAeroport ajouterAeroport;
+    ajouterAeroport.setWindowIcon(icon());
+    if(ajouterAeroport.exec()){
+        try {
+            QSqlQuery query;
+            query.prepare("INSERT INTO Aeroport (Nom) VALUES(:nom)");
+            query.bindValue(":nom", ajouterAeroport.reqAeroport());
+            if (!query.exec()) {
+                if (!query.exec()) throw DatabaseException("Insertion invalide:", query.lastError().text());
+            }
+        }catch (DatabaseException &e){
+            QMessageBox::warning(this,"Erreur",e.what());
 
+        }
+    }
 }
 
 

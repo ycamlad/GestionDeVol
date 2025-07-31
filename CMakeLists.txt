@@ -47,6 +47,9 @@ add_executable(Gestion_de_vol main.cpp
         Interface/AjouterUtilisateur.h
         Interface/AjouterUtilisateur.ui
         Sources/Utilisateur.h
+        Interface/AjouterAeroport.cpp
+        Interface/AjouterAeroport.h
+        Interface/AjouterAeroport.ui
 )
 
 if(CMAKE_BUILD_TYPE STREQUAL "Debug")
