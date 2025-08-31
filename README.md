@@ -4,7 +4,7 @@
 
 # A propos du project
 Application de gestion de vol fait avec QT en c++.
-- Utilisant pointeur intelligent
+- pointeur intelligent
 - theorie du contrat
 - Base de donnee
 - doxygen.
