@@ -10,6 +10,18 @@
     <height>509</height>
    </rect>
   </property>
+  <property name="minimumSize">
+   <size>
+    <width>746</width>
+    <height>509</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>746</width>
+    <height>509</height>
+   </size>
+  </property>
   <property name="windowTitle">
    <string>AjouterDepart</string>
   </property>
@@ -17,10 +29,15 @@
    <property name="geometry">
     <rect>
      <x>190</x>
-     <y>110</y>
-     <width>91</width>
-     <height>16</height>
+     <y>100</y>
+     <width>101</width>
+     <height>21</height>
     </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>12</pointsize>
+    </font>
    </property>
    <property name="text">
     <string>Code du vol:</string>
@@ -30,10 +47,15 @@
    <property name="geometry">
     <rect>
      <x>190</x>
-     <y>150</y>
-     <width>81</width>
-     <height>16</height>
+     <y>130</y>
+     <width>91</width>
+     <height>31</height>
     </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>12</pointsize>
+    </font>
    </property>
    <property name="text">
     <string>Compagnie:</string>
@@ -43,10 +65,15 @@
    <property name="geometry">
     <rect>
      <x>190</x>
-     <y>190</y>
+     <y>180</y>
      <width>58</width>
-     <height>16</height>
+     <height>21</height>
     </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>12</pointsize>
+    </font>
    </property>
    <property name="text">
     <string>Heure:</string>
@@ -56,10 +83,15 @@
    <property name="geometry">
     <rect>
      <x>190</x>
-     <y>230</y>
+     <y>220</y>
      <width>58</width>
-     <height>16</height>
+     <height>21</height>
     </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>12</pointsize>
+    </font>
    </property>
    <property name="text">
     <string>Ville:</string>
@@ -69,10 +101,15 @@
    <property name="geometry">
     <rect>
      <x>190</x>
-     <y>270</y>
-     <width>101</width>
-     <height>20</height>
+     <y>260</y>
+     <width>121</width>
+     <height>31</height>
     </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>12</pointsize>
+    </font>
    </property>
    <property name="text">
     <string>Embarquement:</string>
@@ -84,8 +121,13 @@
      <x>190</x>
      <y>310</y>
      <width>58</width>
-     <height>16</height>
+     <height>31</height>
     </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>12</pointsize>
+    </font>
    </property>
    <property name="text">
     <string>Porte:</string>
@@ -95,10 +137,15 @@
    <property name="geometry">
     <rect>
      <x>320</x>
-     <y>100</y>
+     <y>90</y>
      <width>113</width>
      <height>28</height>
     </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>10</pointsize>
+    </font>
    </property>
    <property name="text">
     <string/>
@@ -108,10 +155,15 @@
    <property name="geometry">
     <rect>
      <x>320</x>
-     <y>140</y>
+     <y>130</y>
      <width>113</width>
      <height>28</height>
     </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>10</pointsize>
+    </font>
    </property>
    <property name="text">
     <string/>
@@ -121,10 +173,15 @@
    <property name="geometry">
     <rect>
      <x>320</x>
-     <y>180</y>
+     <y>170</y>
      <width>113</width>
      <height>28</height>
     </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>10</pointsize>
+    </font>
    </property>
    <property name="text">
     <string/>
@@ -134,10 +191,15 @@
    <property name="geometry">
     <rect>
      <x>320</x>
-     <y>220</y>
+     <y>210</y>
      <width>113</width>
      <height>28</height>
     </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>10</pointsize>
+    </font>
    </property>
    <property name="text">
     <string/>
@@ -152,6 +214,11 @@
      <height>28</height>
     </rect>
    </property>
+   <property name="font">
+    <font>
+     <pointsize>10</pointsize>
+    </font>
+   </property>
    <property name="text">
     <string/>
    </property>
@@ -160,10 +227,15 @@
    <property name="geometry">
     <rect>
      <x>320</x>
-     <y>300</y>
+     <y>310</y>
      <width>113</width>
      <height>28</height>
     </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>10</pointsize>
+    </font>
    </property>
    <property name="text">
     <string/>
@@ -172,11 +244,16 @@
   <widget class="QPushButton" name="pushButtonConfirmerDepart">
    <property name="geometry">
     <rect>
-     <x>300</x>
-     <y>460</y>
+     <x>310</x>
+     <y>410</y>
      <width>141</width>
      <height>28</height>
     </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>12</pointsize>
+    </font>
    </property>
    <property name="text">
     <string>Confirmer</string>

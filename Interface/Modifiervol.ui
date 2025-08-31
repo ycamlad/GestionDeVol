@@ -29,10 +29,15 @@
    <property name="geometry">
     <rect>
      <x>130</x>
-     <y>250</y>
-     <width>101</width>
-     <height>20</height>
+     <y>240</y>
+     <width>121</width>
+     <height>31</height>
     </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>12</pointsize>
+    </font>
    </property>
    <property name="text">
     <string>Embarquement:</string>
@@ -47,6 +52,11 @@
      <height>28</height>
     </rect>
    </property>
+   <property name="font">
+    <font>
+     <pointsize>10</pointsize>
+    </font>
+   </property>
    <property name="text">
     <string>G35</string>
    </property>
@@ -55,10 +65,15 @@
    <property name="geometry">
     <rect>
      <x>130</x>
-     <y>130</y>
+     <y>120</y>
      <width>81</width>
-     <height>16</height>
+     <height>31</height>
     </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>12</pointsize>
+    </font>
    </property>
    <property name="text">
     <string>Compagnie:</string>
@@ -73,6 +88,11 @@
      <height>28</height>
     </rect>
    </property>
+   <property name="font">
+    <font>
+     <pointsize>10</pointsize>
+    </font>
+   </property>
    <property name="text">
     <string>MONTREAL</string>
    </property>
@@ -85,6 +105,11 @@
      <width>113</width>
      <height>28</height>
     </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>10</pointsize>
+    </font>
    </property>
    <property name="text">
     <string>19:00</string>
@@ -99,6 +124,11 @@
      <height>28</height>
     </rect>
    </property>
+   <property name="font">
+    <font>
+     <pointsize>10</pointsize>
+    </font>
+   </property>
    <property name="text">
     <string>18:15</string>
    </property>
@@ -107,10 +137,15 @@
    <property name="geometry">
     <rect>
      <x>130</x>
-     <y>290</y>
+     <y>280</y>
      <width>58</width>
-     <height>16</height>
+     <height>21</height>
     </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>12</pointsize>
+    </font>
    </property>
    <property name="text">
     <string>Porte:</string>
@@ -125,6 +160,11 @@
      <height>28</height>
     </rect>
    </property>
+   <property name="font">
+    <font>
+     <pointsize>10</pointsize>
+    </font>
+   </property>
    <property name="text">
     <string>WESTJET</string>
    </property>
@@ -133,10 +173,15 @@
    <property name="geometry">
     <rect>
      <x>130</x>
-     <y>170</y>
+     <y>160</y>
      <width>58</width>
-     <height>16</height>
+     <height>31</height>
     </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>12</pointsize>
+    </font>
    </property>
    <property name="text">
     <string>Heure:</string>
@@ -151,6 +196,11 @@
      <height>31</height>
     </rect>
    </property>
+   <property name="font">
+    <font>
+     <pointsize>12</pointsize>
+    </font>
+   </property>
    <property name="text">
     <string>Ville:</string>
    </property>
@@ -163,6 +213,11 @@
      <width>141</width>
      <height>28</height>
     </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>12</pointsize>
+    </font>
    </property>
    <property name="text">
     <string>Confirmer</string>
@@ -177,15 +232,25 @@
      <height>22</height>
     </rect>
    </property>
+   <property name="font">
+    <font>
+     <pointsize>10</pointsize>
+    </font>
+   </property>
   </widget>
   <widget class="QLabel" name="label_7">
    <property name="geometry">
     <rect>
      <x>130</x>
      <y>30</y>
-     <width>31</width>
+     <width>41</width>
      <height>41</height>
     </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>12</pointsize>
+    </font>
    </property>
    <property name="text">
     <string>Vols:</string>
@@ -199,6 +264,11 @@
      <width>111</width>
      <height>24</height>
     </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>10</pointsize>
+    </font>
    </property>
    <item>
     <property name="text">
@@ -222,8 +292,13 @@
      <x>130</x>
      <y>330</y>
      <width>58</width>
-     <height>16</height>
+     <height>31</height>
     </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>12</pointsize>
+    </font>
    </property>
    <property name="text">
     <string>Statut:</string>
