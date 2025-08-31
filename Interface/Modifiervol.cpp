@@ -1,10 +1,3 @@
-//
-// Created by chris on 7/26/2025.
-//
-
-// You may need to build the project (run Qt uic code generator) to get "ui_ModifierVol.h" resolved
-
-#include <iostream>
 #include <memory>
 #include "Modifiervol.h"
 #include "ui_ModifierVol.h"
@@ -13,7 +6,6 @@
 #include "Depart.h"
 #include "Arrivee.h"
 #include "QDebug"
-
 
 using namespace util;
 

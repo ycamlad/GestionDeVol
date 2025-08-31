@@ -36,7 +36,9 @@ FenetrePrincipal::FenetrePrincipal(DatabaseManager &p_db,const QString& p_id,
                 " HeureEmbarqument,"
                 " NumeroPorte,"
                 " Statut"
-                " FROM Vols");
+                " FROM Vols"
+                " WHERE NomAeroport=:na");
+        query.bindValue(":na",QString::fromStdString(m_aeroport.reqCode()));
 
         while (!query.exec()){
             QMessageBox::critical(this,"Erreur",query.lastError().text());
@@ -65,16 +67,22 @@ FenetrePrincipal::FenetrePrincipal(DatabaseManager &p_db,const QString& p_id,
 
                 }
             query.prepare("SELECT * FROM Utilisateurs");
+            query.bindValue(":na",QString::fromStdString(m_aeroport.reqCode()));
+
             while (!query.exec()){
                 QMessageBox::critical(this,"Erreur",query.lastError().text());
                 return;
             }
             while(query.next()){
-                Utilisateur u(query.value("Nom").toString(),query.value("Prenom").toString(),query.value("NomUtilisateur").toString(),query.value("NomAeroport").toString(),query.value("Role").toString(),query.value("Pass").toString(),query.value("Statut").toInt());
+                if(query.value("Role").toString()=="Admin"){
+                    Utilisateur u(query.value("Nom").toString(),query.value("Prenom").toString(),query.value("NomUtilisateur").toString(),query.value("NomAeroport").toString(),query.value("Role").toString(),"*******",query.value("Statut").toInt());
+                    m_utilisateurs.push_back(u);
+                }else{
+                    Utilisateur u(query.value("Nom").toString(),query.value("Prenom").toString(),query.value("NomUtilisateur").toString(),query.value("NomAeroport").toString(),query.value("Role").toString(),query.value("Pass").toString(),query.value("Statut").toInt());
+                    m_utilisateurs.push_back(u);
+                }
 
-                m_utilisateurs.push_back(u);
             }
-
     }else {
         query.prepare(
                 "SELECT "
@@ -355,6 +363,7 @@ void FenetrePrincipal::rafraichirAffichage() {
                 widget.tableWidgetDepart->insertRow(row);
 
                 widget.tableWidgetDepart->setItem(row, 0, new QTableWidgetItem(QString::fromStdString(vol->reqNumero())));
+                m_aeroport.reqCode();
                 widget.tableWidgetDepart->setItem(row, 1,
                                                   new QTableWidgetItem(QString::fromStdString(vol->reqCompagnie())));
                 widget.tableWidgetDepart->setItem(row, 2, new QTableWidgetItem(QString::fromStdString(vol->reqHeure())));

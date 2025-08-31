@@ -1,9 +1,3 @@
-//
-// Created by chris on 7/24/2025.
-//
-
-// You may need to build the project (run Qt uic code generator) to get "ui_Login.h" resolved
-
 #include <QMessageBox>
 #include "Login.h"
 #include "ui_Login.h"
@@ -24,11 +18,11 @@ Login::~Login() {
 void Login::slotConfirmer() {
     DatabaseManager &db(DatabaseManager::instance());
     db.connect();
-    QPixmap pixmap(":/Resources/background.png");
-    QIcon icon(":/Resources/iconmonstr-airport-10-240.png");
+    const QPixmap pixmap(":/Resources/background.png");
+    const QIcon icon(":/Resources/iconmonstr-airport-10-240.png");
 
-    QString nom =ui->lineEditNom->text();
-    QString pass=ui->lineEditPass->text();
+    const QString nom =ui->lineEditNom->text();
+    const QString pass=ui->lineEditPass->text();
 
     QSqlQuery query;
     query.prepare("SELECT ID,NomAeroport,Role FROM Utilisateurs WHERE NomUtilisateur=:nom AND Pass=:pass AND Statut=0");
@@ -39,10 +33,9 @@ void Login::slotConfirmer() {
         QMessageBox::critical(this, "Erreur", "Erreur lors de l'exécution de la requête:\n" + query.lastError().text());        return;
     }
     if(query.next()){
-    //if(query.first()){
-        QString id = query.value("ID").toString();
-        QString role = query.value("Role").toString();
-        QString aeroport = query.value("NomAeroport").toString();
+        const QString id = query.value("ID").toString();
+        const QString role = query.value("Role").toString();
+        const QString aeroport = query.value("NomAeroport").toString();
         for (int i = 0; i < query.record().count(); ++i) {
             qDebug() << "Column" << i << ":" << query.record().fieldName(i);
         }
@@ -60,7 +53,6 @@ void Login::slotConfirmer() {
         this->hide();
     }else{
         QMessageBox::warning(this, "Erreur", "Nom d'utilisateur ou mot de passe incorrect.");
-        return;
     }
 }
 

@@ -1,9 +1,3 @@
-//
-// Created by chris on 7/27/2025.
-//
-
-// You may need to build the project (run Qt uic code generator) to get "ui_AjouterUtilisateur.h" resolved
-
 #include "AjouterUtilisateur.h"
 #include "ui_AjouterUtilisateur.h"
 #include "QSqlQuery"
@@ -64,14 +58,12 @@ void AjouterUtilisateur::slotAjouterUtilisateur() {
 
 QString AjouterUtilisateur::reqNom() {
     QString upper =ui->lineEdiNom->text();
-    upper[0].toUpper();
-    return upper;
+    return upper[0].toUpper();
 }
 
 QString AjouterUtilisateur::reqPrenom() {
     QString upper = ui->lineEdiPrenom->text();
-    upper[0].toUpper();
-    return upper;
+    return upper[0].toUpper();
 }
 
 QString AjouterUtilisateur::reqNomUtilisateur() {
@@ -105,7 +97,6 @@ void AjouterUtilisateur::slotGenererNomUtilisateur() {
     if(!(reqNom().isEmpty()&&reqPrenom().isEmpty())){
         ui->lineEditNomUtilisateur->setText((prenom[0]+nom).toLower());
     }
-    return;
 }
 
 

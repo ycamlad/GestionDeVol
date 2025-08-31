@@ -10,12 +10,12 @@ class SupprimerVol : public QDialog
 {
   Q_OBJECT
 public:
-    explicit SupprimerVol(aerien::Aeroport& aeroport, QWidget* parent = nullptr);  virtual ~SupprimerVol ();
+    explicit SupprimerVol(Aeroport& aeroport, QWidget* parent = nullptr);  virtual ~SupprimerVol ();
   std::string reqNumero() const;
   private slots:
     void slotSupprimerVol();
 private:
-    aerien::Aeroport& m_aeroport;
+    Aeroport& m_aeroport;
   Ui::SupprimerVol widget;
 };
 

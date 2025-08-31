@@ -1,7 +1,3 @@
-//
-// Created by chris on 7/30/2025.
-//
-
 #ifndef GESTION_DE_VOL_AJOUTERAEROPORT_H
 #define GESTION_DE_VOL_AJOUTERAEROPORT_H
 

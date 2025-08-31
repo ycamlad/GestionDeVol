@@ -1,7 +1,3 @@
-//
-// Created by chris on 7/28/2025.
-//
-
 #ifndef GESTION_DE_VOL_UTILISATEUR_H
 #define GESTION_DE_VOL_UTILISATEUR_H
 #pragma once

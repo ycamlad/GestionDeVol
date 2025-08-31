@@ -1,11 +1,6 @@
-//
-// Created by chris on 7/26/2025.
-//
-
 #ifndef GESTION_DE_VOL_MODIFIERVOL_H
 #define GESTION_DE_VOL_MODIFIERVOL_H
 
-#include <QWidget>
 #include "QDialog"
 #include <Aeroport.h>
 #include <ui_ModifierVol.h>

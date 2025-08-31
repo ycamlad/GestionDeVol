@@ -1,9 +1,3 @@
-//
-// Created by chris on 7/30/2025.
-//
-
-// You may need to build the project (run Qt uic code generator) to get "ui_AjouterAeroport.h" resolved
-
 #include "AjouterAeroport.h"
 #include "ui_AjouterAeroport.h"
 #include "validationFormat.h"

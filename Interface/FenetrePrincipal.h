@@ -19,8 +19,6 @@ class FenetrePrincipal : public QMainWindow
 
 public:
   FenetrePrincipal (DatabaseManager &p_db,const QString& p_id,const QString& p_role ,const QString& p_aero,QWidget *parent = nullptr);
-    //DatabaseManager &db=DatabaseManager::instance();
-
 
     virtual ~FenetrePrincipal ();
   private slots:
@@ -31,9 +29,6 @@ public:
     void slotAdminUtilisateur();
     void slotAdminAeroport();
 private:
-private:
-    //QStandardItemModel& modelDepart;
-    //QStandardItemModel& modelArrivee;
     Ui::FenetrePrincipal widget{};
     DatabaseManager &m_db;
     QString m_id;
