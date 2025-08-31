@@ -4,7 +4,10 @@
 
 # A propos du project
 Application de gestion de vol fait avec QT en c++.
-Utilisant pointeur intelligent, theorie du contrat ,mariadb et doxygen.
+- Utilisant pointeur intelligent
+- theorie du contrat
+- Base de donnee
+- doxygen.
 
 ## Fonctionnalitees
 ### 1.Affichage des vols
