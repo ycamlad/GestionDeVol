@@ -30,14 +30,20 @@ Application de gestion de vols permettant aux utilisateurs de créer, modifier, 
 
 
 ### 1.Affichage des vols
-- **Depart**.
-  <p align="center">
-  <img width="1016" height="809" alt="PagePrincipal" src="https://github.com/user-attachments/assets/f12047c1-264a-4886-b07f-0e83441757fb" />
-</p>
-- **Arrivee**.
-  <p align="center"><img width="1021" height="807" alt="PagePrincipalArrivee" src="https://github.com/user-attachments/assets/76b6748d-791d-452f-b7a4-8a9e8a6526a7" /></p>
-- **Utilisateurs**.
- <p align="center"><img width="1016" height="809" alt="PagePrincipalUtilisateurs" src="https://github.com/user-attachments/assets/67e124fa-3bbc-434b-9a10-507a5853a050" /></p>
+### 1. Affichage des vols
+
+- **Départ**  
+
+![PagePrincipal](https://github.com/user-attachments/assets/f12047c1-264a-4886-b07f-0e83441757fb)
+
+- **Arrivée**  
+
+![PagePrincipalArrivee](https://github.com/user-attachments/assets/76b6748d-791d-452f-b7a4-8a9e8a6526a7)
+
+- **Utilisateurs**  
+
+![PagePrincipalUtilisateurs](https://github.com/user-attachments/assets/67e124fa-3bbc-434b-9a10-507a5853a050)
+
 
 ### 2. Ajout de vols
 - **Fenetre d'ajout de depart**.
