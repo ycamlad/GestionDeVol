@@ -3,13 +3,32 @@
 </p>
 
 # A propos du project
-Application de gestion de vol fait avec QT en c++.
+Application de gestion de vols permettant aux utilisateurs de créer, modifier, supprimer et consulter des vols. Elle inclut une gestion des utilisateurs avec authentification et des fonctionnalités d’administration.
 - pointeur intelligent
 - theorie du contrat
 - Base de donnee
 - doxygen.
 
-## Fonctionnalitees
+## Technologies
+- **Langage** : C++17
+- **Framework** : Qt
+- **Base de données** : SQLite
+- **Documentation** : Doxygen
+- **Paradigmes** : pointeurs intelligents, théorie du contrat (Design by Contract)
+
+## Installation
+1. Cloner le projet :
+   ```bash
+   git clone https://github.com/ycamlad/GestionDeVol.git
+
+## Fonctionnalités principales
+- Authentification et gestion multi-utilisateurs
+- CRUD complet sur les vols (départ et arrivée)
+- Interface graphique réalisée avec Qt
+- Stockage des données dans une base SQLite
+- Documentation générée automatiquement (Doxygen)
+
+
 ### 1.Affichage des vols
 - **Depart**.
   <p align="center">
